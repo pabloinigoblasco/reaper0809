@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>        
+<query formUrl="testFormModelName">  
+	<javascript url="file:myDateFunctions.js"/>
+
+	<assignments>
+		<dependant>
+			<group>
+				<simple fieldId="wordAs">
+					<value val=""/>
+				</simple>
+				<simple fieldId="wordSimilarAs">
+					<value val=""/>
+					<value val=""/>
+					<value val=""/>
+					<value val=""/>
+				</simple>
+			</group>
+			<group>
+				<simple fieldId="wordAs">
+					<value val=""/>
+				</simple>
+				<simple fieldId="wordSimilarAs">
+					<value val=""/>
+					<value val=""/>
+					<value val=""/>
+					<value val=""/>
+				</simple>
+			</group>
+		</dependant>
+
+		<dependant>
+			<group>
+				<simple fieldId="wordExactlyEqualAs">
+					<value val=""/>
+				</simple>
+				<simple fieldId="imageType">
+					<value>xxxx</value>
+					<value>xxxx</value>
+					<value>xxxx</value>
+					<value>xxxx</value>
+				</simple>
+			</group>
+			<group>
+				<simple fieldId="wordExactlyEqualAs">
+					<value val=""/>
+				</simple>
+				<simple fieldId="imageType">
+					<value>xxxx</value>
+					<value>xxxx</value>
+					<value>xxxx</value>
+					<value>xxxx</value>
+				</simple>
+			</group>
+		</dependant>
+		
+		<simple fieldId="imgsz">
+			<value>xxxx</value>
+			<value>xxxx</value>
+			<value>xxxx</value>
+			<value>xxxx</value>
+		</simple>
+	</assignments>
+</query>

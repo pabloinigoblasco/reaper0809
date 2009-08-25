@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>        
+<formModel namespaceUrl="testFormModelName">  
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://google.com"/>
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-xpath value="abc/cde/fgh"/>
+	</submitLocator>
+
+	<fields>
+		<textBox fieldID="testIdTextBox" required="false">
+			<locator-xpath value="abc/cde/fgh"/>
+		</textBox>
+
+		<hidden fieldID="testIdHidden">
+			<locator-xpath value="abc/cde/fgh"/>
+		</hidden>
+
+		<select fieldID="testIdSelect">
+			<locator-id value="testIdLocator"/>
+		</select>
+
+		<radioGroup fieldID="testIdrRadioGroup">
+			<locator-name value="testName"/>
+		</radioGroup>
+
+		<checkBox fieldID="testIdCheckBox" required="true">
+			<locator-text value="testTextLocator"/>
+		</checkBox>
+
+		<list fieldID="testIdList" required="true">
+			<locator-name value="testNameLocator"/>
+		</list>
+	</fields>
+
+
+	<results>
+		<result contentRegexp="a*ba" urlRegexp="http://x*.com">
+			<action-discard/>
+		</result>
+
+		<result contentRegexp="a*ba" urlRegexp="http://x*.com">
+			<action-classify tag="testTagLabel"/>
+		</result>
+
+		<result contentRegexp="a*ba" urlRegexp="http://x*.com">
+			<action-store/>
+		</result>
+
+		<result contentRegexp="a*ba" urlRegexp="http://x*.com">
+			<action-iterateHub>
+				<product>
+					<locator-xpath value="abc/cde/fgh::childs"/>
+				</product>
+				<nextPage>
+					<locator-id value="testNextPageid"/>
+				</nextPage>
+			</action-iterateHub>
+		</result>
+	</results>
+</formModel>
