@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>        
+<formModel identificationUrl="yahooMovies">  
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://movies.yahoo.com"/>
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-xpath value="//button[@title='search']"/>
+	</submitLocator>
+
+	<fields>
+		<textBox fieldId="searchMovies">
+			<locator-id value="p"/>
+		</textBox>
+	</fields>
+	
+	<results>
+	
+		<result>
+			<action-iterateHub>
+				<product>
+					<locator-xpath value="//table[@class='results']/tbody/child::tr/td/a"/>
+				</product>
+				<nextPage>
+					<locator-xpath value="//a[contains(text(),'Next')]"/>
+				</nextPage>
+			</action-iterateHub>
+		</result>
+		
+		
+	</results>
+	
+	
+</formModel>

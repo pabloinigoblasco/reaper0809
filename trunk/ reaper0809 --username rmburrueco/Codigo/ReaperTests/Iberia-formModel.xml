@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<formModel identificationUrl="iberia">
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://www.iberia.com/" />
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-id value="toAvailSubmit" />
+	</submitLocator>
+
+	<fields>
+		<select fieldId="departureCountry">
+			<locator-name value="originCountry" />
+		</select>
+
+		<select fieldId="departureCity">
+			<locator-id value="ciudadOrigen_0" />
+		</select>
+
+		<select fieldId="arrivalCity">
+			<locator-id value="ciudadDestino_0" />
+		</select>
+
+		<select fieldId="departureDay">
+			<locator-id value="diaSalida" />
+		</select>
+
+		<select fieldId="departureMonth">
+			<locator-id value="mesAnioSalida" />
+		</select>
+
+		<select fieldId="arrivalDay">
+			<locator-id value="diaRegreso" />
+		</select>
+
+		<select fieldId="arrivalMonth">
+			<locator-id value="mesRegreso" />
+		</select>
+
+		<checkBox fieldId="onlyDeparture">
+			<locator-id value="soloIda" />
+		</checkBox>
+
+		<radioGroup fieldId="dateFlexibility">
+			<locator-name value="flexible" />
+		</radioGroup>
+
+		<select fieldId="numberOfPassengers">
+			<locator-name value="ADT" />
+		</select>
+	</fields>
+
+	<results>
+		<result contentRegExp="It was not possible to find availability">
+			<action-classify tag="noFlightAvailable" />
+		</result>
+		
+		<result contentRegExp="(It was not possible to find availability){0}">
+			<action-store />
+		</result>
+		
+		<result contentRegExp="Sevilla">
+			<action-classify tag="Sevilla" />
+		</result>
+	</results>
+</formModel>

@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<query formUrl="iberia">
+	<javaScript url="file:///home/geus/workspace/ReaperTests/reaper-javascript.js"/>
+	<javaScript url="file:///home/geus/workspace/ReaperTests/iberia-javascript-utils.js"/>
+	<assignments>
+		<dependant>
+			<group>
+				<simple fieldId="departureCountry" useValueAs="display">
+					<value>Portugal</value>
+				</simple>
+				<simple fieldId="departureCity" useValueAs="display">
+					<value>Funchal</value>
+				</simple>
+			</group>
+			<group>
+				<simple fieldId="departureCountry" useValueAs="display">
+					<value>Spain</value>
+				</simple>
+				<simple fieldId="departureCity" useValueAs="display">
+					<value>Seville</value>
+					<value>Malaga</value>
+					<value>Jerez</value>
+				</simple>
+			</group>
+		</dependant>
+
+		<dependant>
+			<group>
+				<simple fieldId="arrivalCity" useValueAs="display">
+					<value>Barcelona</value>
+					<value>Tenerife</value>
+					<value>La Coruña</value>
+				</simple>
+				<simple fieldId="numberOfPassengers" useValueAs="display">
+					<value>2</value>
+				</simple>
+			</group>
+			<group>
+				<simple fieldId="arrivalCity" useValueAs="display">
+					<value>London</value>
+					<value>Rome</value>
+					<value>Los Angeles</value>
+				</simple>
+				<simple fieldId="numberOfPassengers" useValueAs="display">
+					<value>1</value>
+				</simple>
+			</group>
+		</dependant>
+
+		<dependant>
+			<group>
+				<simple fieldId="onlyDeparture">
+					<value>false</value>
+				</simple>
+				<simple fieldId="arrivalMonth" useValueAs="display">
+					<value javascriptExpression="true">
+					getArrivalMonthLabel(getToday().getMonth()+6)</value>
+				</simple>
+				<simple fieldId="departureMonth" useValueAs="display">
+					<value>Sep</value>
+				</simple>
+			</group>
+			<group>
+				<simple fieldId="onlyDeparture">
+					<value>true</value>
+				</simple>
+				<simple fieldId="departureMonth" useValueAs="display">
+					<value>Sep</value>
+				</simple>
+			</group>
+		</dependant>
+
+		<simple fieldId="departureDay" useValueAs="display">
+			<value>8</value>
+			<value>9</value>
+			<value>10</value>
+			<value>11</value>
+		</simple>
+		<simple fieldId="arrivalDay" useValueAs="display">
+			<value>20</value>
+			<value>21</value>
+			<value>22</value>
+			<value>23</value>
+		</simple>
+	</assignments>
+	
+	<events>
+		<event name="scriptException">showScriptExceptionMessage()</event>
+<!--		<event name="reapingProcessBegin">showAlertWithAllScriptVariables()</event>-->
+<!--		<event name="reapingProcessFinished">showAlertWithAllScriptVariables()</event>-->
+<!---->
+<!--		<event name="fieldAssignmentsSetBegin">showAlertWithAllScriptVariables()</event>-->
+<!--		<event name="fieldAssignmentsSetEnd">showAlertWithAllScriptVariables()</event>-->
+<!---->
+	<!--
+		<event
+		name="fieldAssignmentBegin">showAlertWithAllScriptVariables()</event>
+	-->
+<!--	<event name="fieldAssignmentEnd">showAlertWithAllScriptVariables()</event>-->
+<!---->
+<!--	<event name="submitStart">showAlertWithAllScriptVariables()</event>-->
+<!--	<event name="submitEnd">showAlertWithAllScriptVariables()</event>-->
+<!---->
+<!--	<event name="actionBegin">showAlertWithAllScriptVariables()</event>-->
+<!--	<event name="actionFinished">showAlertWithAllScriptVariables()</event>-->
+	</events>
+</query>
