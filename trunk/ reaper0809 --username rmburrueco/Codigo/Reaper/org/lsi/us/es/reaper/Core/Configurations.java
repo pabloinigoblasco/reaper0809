@@ -6,7 +6,7 @@ public class Configurations {
 	
 	public static final String SeleniumNavigator="*firefox";
 	public static final String FormFillerStrategy="org.lsi.us.es.reaper.SeleniumFormFillerStrategy.SeleniumFillerApplication";
-	public static final String submitWaitMilliseconds="7000";
+	public static final String submitWaitMilliseconds="10000";
 	public static final String OutputDirectory="./Results/";
 	
 }
