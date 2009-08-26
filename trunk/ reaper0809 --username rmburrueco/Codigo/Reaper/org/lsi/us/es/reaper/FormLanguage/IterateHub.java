@@ -1,3 +1,10 @@
+/* Authors:
+ *  
+ * Pablo Iñigo Blasco
+ * Rosa María Burrueco
+ *  
+ * */
+
 package org.lsi.us.es.reaper.FormLanguage;
 
 import java.io.FileNotFoundException;
@@ -12,7 +19,12 @@ import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Locators.Xpath;
 import org.lsi.us.es.reaper.QueryLanguage.EventEnumeration;
-import org.lsi.us.es.reaper.QueryLanguage.Query;
+import org.lsi.us.es.reaper.QueryLanguage/* Authors:
+ *  
+ * Pablo Iñigo Blasco
+ * Rosa María Burrueco
+ *  
+ * */.Query;
 
 public class IterateHub implements Action {
 
