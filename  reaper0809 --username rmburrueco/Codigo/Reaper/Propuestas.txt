@@ -19,7 +19,8 @@ abecedario
 - por javascript obtener el localizador a partir de un nombre, o acceder al botón next??
 - Considerar las excepciones por timeout que no corten el proceso
 - Un poquito mas de documentación, especialmente en la clase Query
-- Poner los autores y los directores 'directedby'
+- base de datos
+
 -------------------------------------------------------------------------
 Cosas de documentación:
 - Hacer la parte de la documentación
@@ -49,6 +50,7 @@ Log de errores
 	- error durante el submit
 	- error durante la iteración en la acción iteratehub
 	- otro tipo de error
+	- Excepción crítica que corta el proceso (típicamente los timeouts)
 
 
 Reaping process

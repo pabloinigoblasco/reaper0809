@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <query formUrl="iberia">
-	<javaScript url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js"/>
-	<javaScript url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/iberia-javascript-utils.js"/>
+	<javaScript
+		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js" />
+	<javaScript
+		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/iberia-javascript-utils.js" />
 	<assignments>
 		<dependant>
 			<group>
@@ -14,7 +16,7 @@
 			</group>
 			<group>
 				<simple fieldId="departureCountry" useValueAs="display">
-	"Iberia-queryModel.xml"	"Iberia-queryModel.xml"			<value>Spain</value>
+					<value>Spain</value>
 				</simple>
 				<simple fieldId="departureCity" useValueAs="display">
 					<value>Seville</value>
@@ -54,7 +56,7 @@
 				</simple>
 				<simple fieldId="arrivalMonth" useValueAs="display">
 					<value javascriptExpression="true">
-					getArrivalMonthLabel(getToday().getMonth()+6)</value>
+						getArrivalMonthLabel(getToday().getMonth()+6)</value>
 				</simple>
 				<simple fieldId="departureMonth" useValueAs="display">
 					<value>Sep</value>
@@ -83,25 +85,49 @@
 			<value>23</value>
 		</simple>
 	</assignments>
-	
+
 	<events>
 		<event name="scriptException">showScriptExceptionMessage()</event>
-<!--		<event name="reapingProcessBegin">showAlertWithAllScriptVariables()</event>-->
-<!--		<event name="reapingProcessFinished">showAlertWithAllScriptVariables()</event>-->
+		<!--
+			<event
+			name="reapingProcessBegin">showAlertWithAllScriptVariables()</event>
+		-->
+		<!--
+			<event
+			name="reapingProcessFinished">showAlertWithAllScriptVariables()</event>
+		-->
 <!---->
-<!--		<event name="fieldAssignmentsSetBegin">showAlertWithAllScriptVariables()</event>-->
-<!--		<event name="fieldAssignmentsSetEnd">showAlertWithAllScriptVariables()</event>-->
+		<!--
+			<event
+			name="fieldAssignmentsSetBegin">showAlertWithAllScriptVariables()</event>
+		-->
+		<!--
+			<event
+			name="fieldAssignmentsSetEnd">showAlertWithAllScriptVariables()</event>
+		-->
 <!---->
-	<!--
-		<event
-		name="fieldAssignmentBegin">showAlertWithAllScriptVariables()</event>
-	-->
-<!--	<event name="fieldAssignmentEnd">showAlertWithAllScriptVariables()</event>-->
+		<!--
+			<event
+			name="fieldAssignmentBegin">showAlertWithAllScriptVariables()</event>
+		-->
+		<!--
+			<event
+			name="fieldAssignmentEnd">showAlertWithAllScriptVariables()</event>
+		-->
 <!---->
-<!--	<event name="submitStart">showAlertWithAllScriptVariables()</event>-->
-<!--	<event name="submitEnd">showAlertWithAllScriptVariables()</event>-->
+		<!--
+			<event name="submitStart">showAlertWithAllScriptVariables()</event>
+		-->
+		<!--
+			<event name="submitEnd">showAlertWithAllScriptVariables()</event>
+		-->
 <!---->
-<!--	<event name="actionBegin">showAlertWithAllScriptVariables()</event>-->
-<!--	<event name="actionFinished">showAlertWithAllScriptVariables()</event>-->
+		<!--
+			<event name="actionBegin">showAlertWithAllScriptVariables()</event>
+		-->
+		<!--
+			<event
+			name="actionFinished">showAlertWithAllScriptVariables()</event>
+		-->
 	</events>
 </query>

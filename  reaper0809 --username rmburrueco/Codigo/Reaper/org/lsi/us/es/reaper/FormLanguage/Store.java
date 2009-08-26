@@ -46,7 +46,7 @@ public class Store implements Action
 	}
 
 	public boolean validate(List<String> errorDescriptions) {
-		return true;
+		return false;
 	}
 
 }
