@@ -7,6 +7,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import org.lsi.us.es.reaper.Core.Configurations;
 import org.lsi.us.es.reaper.Core.IFormFiller;
 import org.lsi.us.es.reaper.Core.LogSystem;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
@@ -233,6 +234,7 @@ public class Query {
 						filler.evalScript(e.getScriptExpression());
 						filler.registerVariable(ScriptVariable.currentEvent,
 								null);
+						filler.waitForPageToLoad(Configurations.submitWaitMilliseconds);
 					} catch (Exception ex) {
 						LogSystem.scriptEventFailed(ex, this);
 					}
@@ -240,6 +242,7 @@ public class Query {
 			}
 
 		}
+		
 	}
 
 	// ----------------- auxiliar methods-----------------------

@@ -11,7 +11,6 @@ import org.lsi.us.es.reaper.QueryLanguage.ValueEntryType;
 
 public interface IFormFiller {
 	void navigate(String url);
-
 	void releaseResources();
 
 	boolean isElementPresent(Locator f);
