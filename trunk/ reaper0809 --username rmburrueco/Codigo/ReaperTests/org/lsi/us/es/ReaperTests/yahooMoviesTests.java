@@ -1,5 +1,6 @@
 package org.lsi.us.es.ReaperTests;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.JavaScriptException;
@@ -11,7 +12,7 @@ public class yahooMoviesTests {
 	public void yahooMoviesTest() throws LoadingModelException, JavaScriptException, ReapingProccessException {
 		
 		ReapingProcess p = new ReapingProcess();
-		p.start("yahooMovies-formModel.xml", "yahooMovies-queryModel.xml");
+		Assert.assertFalse(p.start("yahooMovies-formModel.xml", "yahooMovies-queryModel.xml"));
 		
 	}
 }

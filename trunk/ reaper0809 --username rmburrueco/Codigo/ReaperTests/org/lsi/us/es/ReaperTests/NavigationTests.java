@@ -30,6 +30,6 @@ public class NavigationTests{
 	public void iberiaFormFillingTest() throws LoadingModelException, JavaScriptException, ReapingProccessException
 	{
 		ReapingProcess p=new ReapingProcess();
-		p.start("Iberia-formModel.xml", "Iberia-queryModel.xml");
+		Assert.assertFalse(p.start("Iberia-formModel.xml", "Iberia-queryModel.xml"));
 	}
 }
