@@ -7,13 +7,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
-import javax.swing.Box.Filler;
-
 import org.lsi.us.es.reaper.Core.IFormFiller;
 import org.lsi.us.es.reaper.Core.LogSystem;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.simpleAssignmentOrderComparator;
 import org.lsi.us.es.reaper.Core.Exceptions.JavaScriptException;
+import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Field;
 import org.lsi.us.es.reaper.FormLanguage.Form;
@@ -133,7 +132,7 @@ public class Query {
 			IFormFiller formFiller) {
 		ReapingProcess.nextAttempt();
 		form.getReachFormMethod().navigateToForm();
-		String calculatedValue=null;
+		String calculatedValue = null;
 		this.launcEvent(EventEnumeration.fieldAssignmentsSetBegin);
 		try {
 			for (Entry<Simple, Value> e : assignmentsMap.entrySet()) {
@@ -147,7 +146,7 @@ public class Query {
 						ScriptVariable.currentField, f.getFieldId());
 
 				this.launcEvent(EventEnumeration.fieldAssignmentBegin);
-				calculatedValue = e.getValue().evaluate(null);
+				calculatedValue = e.getValue().evaluate();
 				f.setValue(e.getValue(), calculatedValue, formFiller);
 				ReapingProcess.getFormFiller().registerVariable(
 						ScriptVariable.currentValue, calculatedValue);
@@ -169,7 +168,15 @@ public class Query {
 		} catch (ReapingProccessException e) {
 			LogSystem.settingValueFail(e);
 			return;
-		} finally {
+			
+		}
+		catch (Exception ex) //tipicamente una timeoutException
+		{
+			LogSystem.settingValueFail(new ReapingProccessException(ex));
+			return;
+			
+		}
+		finally {
 			ReapingProcess.getFormFiller().registerVariable(
 					ScriptVariable.currentFieldLocator, null);
 			ReapingProcess.getFormFiller().registerVariable(
@@ -177,15 +184,19 @@ public class Query {
 			ReapingProcess.getFormFiller().registerVariable(
 					ScriptVariable.currentValue, null);
 		}
-
-		this.launcEvent(EventEnumeration.fieldAssignmentsSetBegin);
-
-		formFiller.submit(form.getSubmit());
-		String currentHtmlContent = formFiller.getCurrentHtmlContent();
+		try
+		{
+			this.launcEvent(EventEnumeration.fieldAssignmentsSetBegin);
+			formFiller.submit(form.getSubmit());
+		}
+		catch(Exception ex)//tipicamente una timeoutException
+		{
+			LogSystem.submitFailed(new ReapingProccessException(ex));
+		}
 
 		boolean nextActionOrResult = true;
 		for (Result r : form.getResults()) {
-			if (r.applicable(currentHtmlContent, formFiller.getCurrentUrl())) {
+			if (r.applicable(formFiller.getCurrentHtmlContent(), formFiller.getCurrentUrl())) {
 				try {
 					for (Action a : r.getActions()) {
 
@@ -277,6 +288,24 @@ public class Query {
 			auxGenerateAllGroupSet(dependantList, ++currentDepedency,
 					tuplesList);
 		}
+	}
+
+	public boolean validate(List<String> errors, Form f) {
+		// Comprobar que todos los campos del lenguaje de queries
+		// existen en el lenguaje de forms.
+		boolean error = false;
+
+		for (Assignment a : getAssignments())
+			error |= a.validate(errors, f);
+
+		try {
+			ReapingProcess.getFormFiller().importScripts(getJavaScriptImports());
+		} catch (LoadingModelException ex) {
+			error = true;
+			errors.add(ex.toString());
+		}
+
+		return error;
 	}
 
 }

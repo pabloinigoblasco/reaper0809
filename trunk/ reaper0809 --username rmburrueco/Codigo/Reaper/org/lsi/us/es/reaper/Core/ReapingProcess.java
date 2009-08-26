@@ -2,6 +2,7 @@ package org.lsi.us.es.reaper.Core;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
@@ -13,10 +14,12 @@ import org.lsi.us.es.reaper.Core.Exceptions.JavaScriptException;
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.*;
+import java.util.List;
 import org.lsi.us.es.reaper.QueryLanguage.*;
 import org.xml.sax.InputSource;
 
 public class ReapingProcess {
+	@SuppressWarnings("unchecked")
 	private Object loadModel(String modelFilepath,
 			String modelMappinglFilePath, Class c) throws LoadingModelException {
 		// Load Mapping
@@ -89,7 +92,7 @@ public class ReapingProcess {
 				Configurations.QueryModelMappingFile, Query.class);
 	}
 
-	public void start(String formModelFilepath, String queryModelFilepath)
+	public boolean start(String formModelFilepath, String queryModelFilepath)
 			throws LoadingModelException, JavaScriptException,
 			ReapingProccessException {
 		IFormFiller filler = null;
@@ -99,11 +102,21 @@ public class ReapingProcess {
 			Form form = loadFormModel(formModelFilepath);
 			filler = getFormFiller();
 			form.getReachFormMethod().navigateToForm();
-			boolean errors = form.checkFields();
-			filler.importScripts(query.getJavaScriptImports());
-			initScriptVariables(filler);
-			linkData(form, query);
-			query.executeQuery(form, filler);
+			List<String> errors = new ArrayList<String>();
+			boolean formValidationErrors = form.validate(errors);
+			boolean queryValidationErrors = query.validate(errors, form);
+			
+
+			if (!formValidationErrors && !queryValidationErrors) {
+				initScriptVariables(filler);
+				linkData(form, query);
+				query.executeQuery(form, filler);
+				return false;
+			} else
+			{
+				LogSystem.logXmlCoherenceErrors(errors);
+				return true;
+			}
 
 		} catch (LoadingModelException e) {
 			LogSystem.notifyError(e);
@@ -118,16 +131,14 @@ public class ReapingProcess {
 		}
 	}
 
-	private void initScriptVariables(IFormFiller f) 
-	{
-		for(ScriptVariable  v:ScriptVariable.values())
-			f.registerVariable(v,null);
-		
+	private void initScriptVariables(IFormFiller f) {
+		for (ScriptVariable v : ScriptVariable.values())
+			f.registerVariable(v, null);
+
 	}
 
 	private void linkData(Form f, Query q) throws LoadingModelException {
-		// TODO:crear marca de orden en todos los simpleAssignments
-
+		// crear marca de orden en todos los simpleAssignments
 		int cont = 0;
 		for (Assignment a : q.getAssignments()) {
 			if (a instanceof Simple) {
@@ -147,44 +158,6 @@ public class ReapingProcess {
 					}
 			}
 		}
-
-	}
-
-	private boolean checkFormModelCoherence(Form f, Query q) {
-		// TODO:comprobar que al menos hay un result
-
-		// TODO:comprobar que al menos de cada resultado
-		// está relleno o el regExp o el urlregexp
-
-		// TODO:Comprobar que todos los campos existen??
-		// y lanzar warnings
-
-		// TODO:si existe una iterate hub action comprobar
-		// que existe la cadena ::child una y solo una vez product
-
-		// TODO:Comprobar que todos los campos del lenguaje de queries
-		// existen en el lenguaje de forms.
-
-		// TODO:Comprobar que en el lenguaje de queries no hay ningún
-		// Dependency assignment sin ningún group
-
-		// TODO:Comprobar que en el lenguaje de queries no hay ningún
-		// group sin ningún simple
-
-		// TODO:Comprobar si dos valores de un mismo simple assignment están
-		// repetidos
-		filler.registerVariable(ScriptVariable.currentEvent,
-				null);
-		// TODO: Comrpobar si hay alguna aplicación de reslutado y que si hay
-		// una no sea solo discard
-
-		// TODO: Comprobar si las expresiones regulares están correctamente
-		// escritas
-
-		// TODO: Comprobar en los warnings a ver si se ha ignorado algo en el
-		// xml
-
-		return false;
 	}
 
 	static int attemptId;

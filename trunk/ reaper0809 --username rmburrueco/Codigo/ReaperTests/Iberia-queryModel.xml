@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <query formUrl="iberia">
-	<javaScript url="file:///home/geus/workspace/ReaperTests/reaper-javascript.js"/>
-	<javaScript url="file:///home/geus/workspace/ReaperTests/iberia-javascript-utils.js"/>
+	<javaScript url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js"/>
+	<javaScript url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/iberia-javascript-utils.js"/>
 	<assignments>
 		<dependant>
 			<group>
@@ -14,7 +14,7 @@
 			</group>
 			<group>
 				<simple fieldId="departureCountry" useValueAs="display">
-					<value>Spain</value>
+	"Iberia-queryModel.xml"	"Iberia-queryModel.xml"			<value>Spain</value>
 				</simple>
 				<simple fieldId="departureCity" useValueAs="display">
 					<value>Seville</value>

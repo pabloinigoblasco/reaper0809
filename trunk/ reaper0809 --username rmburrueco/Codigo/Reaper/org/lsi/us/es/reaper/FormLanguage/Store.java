@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.List;
 import org.lsi.us.es.reaper.Core.Configurations;
 import org.lsi.us.es.reaper.Core.IFormFiller;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.QueryLanguage.EventEnumeration;
 import org.lsi.us.es.reaper.QueryLanguage.Query;
-import org.lsi.us.es.reaper.QueryLanguage.ScriptVariable;
+
 
 public class Store implements Action 
 {
@@ -38,6 +36,10 @@ public class Store implements Action
 	    	throw new ReapingProccessException(ex);
         }
 	    return true;
+	}
+
+	public boolean validate(List<String> errorDescriptions) {
+		return true;
 	}
 
 }
