@@ -1,22 +1,22 @@
 <?xml version="1.0" ?>
 <query formUrl="yahooMovies">
 	<javaScript
-		url="file:///home/geus/workspace/ReaperTests/reaper-javascript.js" />
+		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js" />
+	<javaScript
+		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/yahooMovies-javascript-utils.js" />
+
 	<assignments>
 		<simple fieldId="searchMovies">
 			<value>a</value>
 		</simple>
 	</assignments>
-	
+
 	<events>
-		<event name="actionBegin">showAlertWithAllScriptVariables()</event>
+		<event name="scriptException">
+			showScriptExceptionMessage()
+		</event>
 		<event name="iterateHubPageFinished">
-			showAlertWithAllScriptVariables()
-			if(selenium.browserbot.findElementOrNull("link=Show all *")!=null)
-			{
-				selenium.doClick("link=Show all *");
-				selenium.doWaitForPageToLoad("7000");
-			}
+			checkBlockingLinkNavigator()
 		</event>
 		<event name="scriptException">showScriptExceptionMessage()</event>
 	</events>

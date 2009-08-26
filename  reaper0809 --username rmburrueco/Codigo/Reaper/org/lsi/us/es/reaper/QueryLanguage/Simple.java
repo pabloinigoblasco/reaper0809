@@ -3,6 +3,7 @@ package org.lsi.us.es.reaper.QueryLanguage;
 import java.util.List;
 
 import org.lsi.us.es.reaper.FormLanguage.Field;
+import org.lsi.us.es.reaper.FormLanguage.Form;
 
 public class Simple extends Assignment{
 
@@ -56,5 +57,34 @@ public class Simple extends Assignment{
 		public void setField(Field value)
 		{
 			f=value;
+		}
+
+		@Override
+		public boolean validate(List<String> errors,Form f) 
+		{
+			boolean error=false;
+			if(f.getFieldByFieldId(getFieldId())==null)
+			{
+					error=true;
+					errors.add("Query assignment have a fieldid that does not exist at formModel: "+getFieldId());
+			}
+			
+			if(getValues()==null || getValues().size()==0)
+			{
+				error=true;
+				errors.add("Simple assignments must have at least one value element");
+			}
+			
+			// Comprobar si dos valores de un mismo simple assignment están
+			// repetidos
+			for(Value v:getValues())
+			{
+				for(Value v2:getValues())
+				{
+					if(v!=v2 && v.getVal().equals(v2.getVal()))
+						errors.add("Simple assignments cannot have two equals value elements");
+				}
+			}
+			return error;
 		}
 }

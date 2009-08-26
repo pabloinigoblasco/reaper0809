@@ -9,11 +9,8 @@ public class Value {
 	boolean isJavascriptExression;
 	Simple parentAssignment;
 
-	public String evaluate(String htmlContent) throws JavaScriptException {
+	public String evaluate() throws JavaScriptException {
 		String result;
-		
-		
-		
 		if (isJavascriptExpression())
 		{	
 			try

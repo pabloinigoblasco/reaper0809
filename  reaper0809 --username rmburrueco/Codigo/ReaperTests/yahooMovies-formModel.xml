@@ -16,7 +16,7 @@
 	
 	<results>
 	
-		<result>
+		<result contentRegExp=".*">
 			<action-iterateHub>
 				<product>
 					<locator-xpath value="//table[@class='results']/tbody/child::tr/td/a"/>

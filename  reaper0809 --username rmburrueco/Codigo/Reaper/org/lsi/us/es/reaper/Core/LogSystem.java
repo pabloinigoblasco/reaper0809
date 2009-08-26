@@ -1,5 +1,6 @@
 package org.lsi.us.es.reaper.Core;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,8 +63,17 @@ public class LogSystem {
 		IFormFiller formFiller=ReapingProcess.getFormFiller();
 		formFiller.registerVariable(ScriptVariable.scriptExceptionMessage,ex.getMessage());
 		q.launcEvent(EventEnumeration.scriptException);
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stublogXmlCoherenceErrors
 		log.warning(ex.getMessage());
 		formFiller.registerVariable(ScriptVariable.scriptExceptionMessage,null);
+	}
+
+	public static void logXmlCoherenceErrors(List<String> errors) 
+	{
+		// TODO Auto-generated method stub
+		for(String err:errors)
+			log.severe(err);
+		
+		log.severe("Reaping proccess interrupted due xml-coherence errors");
 	}
 }
