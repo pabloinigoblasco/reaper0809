@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <query formUrl="iberia">
 	<javaScript
-		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js" />
+		url="file:///Subversion/Codigo/ReaperTests/reaper-javascript.js" />
 	<javaScript
-		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/iberia-javascript-utils.js" />
+		url="file:///Subversion/Codigo/ReaperTests/iberia-javascript-utils.js" />
 	<assignments>
 		<dependant>
 			<group>
@@ -89,14 +89,7 @@
 	<events>
 		<event name="scriptException">showScriptExceptionMessage()</event>
 		<event name="reapingProcessBegin">
-			if(selenium.isElementPresent("link=Español"))
-			{
-				selenium.doClick("link=Español");
-				selenium.doClick("//a[@id='change']/span");
-				selenium.doSelect("country", "label=Reino Unido");
-				selenium.doClick("//input[@value='Cambiar...']");
-				selenium.doWaitForPageToLoad("30000");
-			}
+			avoidSpanishLanguage()
 		</event>
 		
 		<!--
