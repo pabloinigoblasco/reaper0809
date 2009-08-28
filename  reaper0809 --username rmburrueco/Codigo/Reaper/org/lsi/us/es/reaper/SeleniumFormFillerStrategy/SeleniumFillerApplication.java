@@ -58,6 +58,7 @@ public class SeleniumFillerApplication implements IFormFiller {
 					Configurations.SeleniumNavigator, url);
 			browser.start();
 			browser.setBrowserLogLevel("warn");
+			browser.setSpeed(Configurations.BrowserSpeed);
 		}
 
 		browser.open(url);
@@ -177,7 +178,9 @@ public class SeleniumFillerApplication implements IFormFiller {
 
 	public void importScripts() throws LoadingModelException {
 
-		for (JavaScript j : scripts) {
+		JavaScript j=null ;
+		for(int i=0;i<scripts.size();i++) {
+			j=scripts.get(i);
 			try {
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(j.toUrl().openStream()));
@@ -192,8 +195,9 @@ public class SeleniumFillerApplication implements IFormFiller {
 				}
 				browser.addScript(stringBuilder.toString(), j.hashCode() + "");
 
-			} catch (IOException e) {
-				throw new LoadingModelException(e);
+			} catch (IOException e) 
+			{
+				throw new LoadingModelException(e.getMessage()+"\n"+j.getUrl());
 			}
 		}
 

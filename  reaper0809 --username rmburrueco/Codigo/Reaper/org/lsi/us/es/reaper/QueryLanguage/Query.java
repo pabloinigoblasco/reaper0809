@@ -300,7 +300,8 @@ public class Query {
 		}
 	}
 
-	public boolean validate(List<String> errors, Form f) {
+	public boolean validate(List<String> errors, Form f) 
+	{
 		// Comprobar que todos los campos del lenguaje de queries
 		// existen en el lenguaje de forms.
 		boolean error = false;
@@ -312,7 +313,7 @@ public class Query {
 			ReapingProcess.getFormFiller().importScripts(getJavaScriptImports());
 		} catch (LoadingModelException ex) {
 			error = true;
-			errors.add(ex.toString());
+			errors.add("Error cargando javaScripts especificados:\n"+ex.toString());
 		}
 
 		return error;
