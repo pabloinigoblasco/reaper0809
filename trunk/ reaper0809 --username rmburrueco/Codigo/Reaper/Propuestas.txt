@@ -20,6 +20,9 @@ abecedario
 - Considerar las excepciones por timeout que no corten el proceso
 - Un poquito mas de documentaciÃ³n, especialmente en la clase Query
 - base de datos
+- Control de excepciones con los eventos (excepciones recursivas XD)
+- Idioma
+- La ñ (España y la Coruña no rulan)
 
 -------------------------------------------------------------------------
 Cosas de documentaciÃ³n:

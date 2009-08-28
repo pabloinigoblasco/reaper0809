@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>        
+<formModel identificationUrl="amazon">  
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://www.amazon.com"/>
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-xpath value="//div[@id='navGoButton']/input"/>
+	</submitLocator>
+
+	<fields>
+	    <select fieldId="category">
+	    	<locator-name value="url"/>
+	    </select>
+		<textBox fieldId="search">
+			<locator-id value="twotabsearchtextbox"/>
+		</textBox>
+	</fields>
+	
+	<results>
+		<result contentRegExp=".*">
+			<action-iterateHub>
+				<product>
+					<locator-xpath value="//div[@class='listView']//child::div[@class='productTitle']/a"/>
+				</product>
+				<nextPage>
+					<locator-id value="pagnNextLink"/>
+				</nextPage>
+			</action-iterateHub>
+		</result>
+	</results>
+	
+	
+</formModel>

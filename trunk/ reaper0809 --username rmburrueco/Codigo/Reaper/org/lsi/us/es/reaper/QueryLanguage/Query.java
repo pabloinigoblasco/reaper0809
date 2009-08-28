@@ -76,7 +76,7 @@ public class Query {
 		List<Simple> fullUndependantSimpleAssignmentSet = new ArrayList<Simple>();
 
 		Integer countRequests = 0;
-
+		launcEvent(EventEnumeration.reapingProcessBegin);
 		if (groupSets.size() > 0) {
 			for (List<Group> gs : groupSets) {
 				fullUndependantSimpleAssignmentSet.clear();
@@ -94,6 +94,7 @@ public class Query {
 			processFullAssignmentSet(fullUndependantSimpleAssignmentSet, form,
 					formFiller, countRequests);
 		}
+		launcEvent(EventEnumeration.reapingProcessFinished);
 	}
 
 	private void processFullAssignmentSet(List<Simple> simpleAssignments,

@@ -35,7 +35,7 @@ public class IterateHub implements Action {
 		return nextPage;
 	}
 
-	public void setNextPage(Xpath nextPage) {
+	public void setNextPage(Locator nextPage) {
 		this.nextPage = nextPage;
 	}
 
