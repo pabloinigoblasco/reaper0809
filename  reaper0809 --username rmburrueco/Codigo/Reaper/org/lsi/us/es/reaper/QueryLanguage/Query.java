@@ -1,7 +1,13 @@
-/* Authors:
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
  *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
  *  
  * */
 
@@ -64,37 +70,31 @@ public class Query {
 	public void setFormURL(String formURL) {
 		this.formURL = formURL;
 	}
+	
+	public boolean validate(List<String> errors, Form f) {
+		// Comprobar que todos los campos del lenguaje de queries
+		// existen en el lenguaje de forms.
+		boolean error = false;
 
-	public void executeQuery(Form form, IFormFiller formFiller)
-			throws JavaScriptException {
-		List<Simple> partialSimpleAssignments = new ArrayList<Simple>();
-		for (Assignment assignment : this.getAssignments())
-			if (assignment.getClass() == Simple.class)
-				partialSimpleAssignments.add((Simple) assignment);
-
-		List<List<Group>> groupSets = generateAllGroupSetsCombination();
-		List<Simple> fullUndependantSimpleAssignmentSet = new ArrayList<Simple>();
-
-		Integer countRequests = 0;
-		launcEvent(EventEnumeration.reapingProcessBegin);
-		if (groupSets.size() > 0) {
-			for (List<Group> gs : groupSets) {
-				fullUndependantSimpleAssignmentSet.clear();
-				fullUndependantSimpleAssignmentSet
-						.addAll(partialSimpleAssignments);
-				for (Group g : gs)
-					fullUndependantSimpleAssignmentSet.addAll(g
-							.getSimpleAssigments());
-
-				processFullAssignmentSet(fullUndependantSimpleAssignmentSet,
-						form, formFiller, countRequests);
-			}
-		} else {
-			fullUndependantSimpleAssignmentSet.addAll(partialSimpleAssignments);
-			processFullAssignmentSet(fullUndependantSimpleAssignmentSet, form,
-					formFiller, countRequests);
+		if(!f.getIdentificationUrl().equals(this.getFormURL()))
+		{
+			error=true;
+			errors.add("Query formUrl attribute must be the same than Form identificationUrl");
 		}
-		launcEvent(EventEnumeration.reapingProcessFinished);
+		
+		for (Assignment a : getAssignments())
+			error |= a.validate(errors, f);
+
+		try {
+			ReapingProcess.getFormFiller()
+					.importScripts(getJavaScriptImports());
+		} catch (LoadingModelException ex) {
+			error = true;
+			errors.add("Error cargando javaScripts especificados:\n"
+					+ ex.toString());
+		}
+
+		return error;
 	}
 
 	private void processFullAssignmentSet(List<Simple> simpleAssignments,
@@ -228,6 +228,40 @@ public class Query {
 		}
 	}
 
+	
+	public void executeQuery(Form form, IFormFiller formFiller)
+			throws JavaScriptException {
+		List<Simple> partialSimpleAssignments = new ArrayList<Simple>();
+		for (Assignment assignment : this.getAssignments())
+			if (assignment.getClass() == Simple.class)
+				partialSimpleAssignments.add((Simple) assignment);
+
+		List<List<Group>> groupSets = generateAllGroupSetsCombination();
+		List<Simple> fullUndependantSimpleAssignmentSet = new ArrayList<Simple>();
+
+		Integer countRequests = 0;
+		launcEvent(EventEnumeration.reapingProcessBegin);
+		if (groupSets.size() > 0) {
+			for (List<Group> gs : groupSets) {
+				fullUndependantSimpleAssignmentSet.clear();
+				fullUndependantSimpleAssignmentSet
+						.addAll(partialSimpleAssignments);
+				for (Group g : gs)
+					fullUndependantSimpleAssignmentSet.addAll(g
+							.getSimpleAssigments());
+
+				processFullAssignmentSet(fullUndependantSimpleAssignmentSet,
+						form, formFiller, countRequests);
+			}
+		} else {
+			fullUndependantSimpleAssignmentSet.addAll(partialSimpleAssignments);
+			processFullAssignmentSet(fullUndependantSimpleAssignmentSet, form,
+					formFiller, countRequests);
+		}
+		launcEvent(EventEnumeration.reapingProcessFinished);
+	}
+
+	
 	public void launcEvent(EventEnumeration eventName) {
 
 		if (events != null) {
@@ -238,7 +272,7 @@ public class Query {
 
 						filler.registerVariable(ScriptVariable.currentEvent,
 								eventName.toString());
-						filler.runScript(e.getScriptExpression());
+						filler.evalScript(e.getScriptExpression());
 						filler.registerVariable(ScriptVariable.currentEvent,
 								null);
 
@@ -308,24 +342,6 @@ public class Query {
 		}
 	}
 
-	public boolean validate(List<String> errors, Form f) {
-		// Comprobar que todos los campos del lenguaje de queries
-		// existen en el lenguaje de forms.
-		boolean error = false;
-
-		for (Assignment a : getAssignments())
-			error |= a.validate(errors, f);
-
-		try {
-			ReapingProcess.getFormFiller()
-					.importScripts(getJavaScriptImports());
-		} catch (LoadingModelException ex) {
-			error = true;
-			errors.add("Error cargando javaScripts especificados:\n"
-					+ ex.toString());
-		}
-
-		return error;
-	}
+	
 
 }

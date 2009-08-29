@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>        
 <query formUrl="testFormModelName">  
-	<javascript url="file:myDateFunctions.js"/>
-
+	
 	<assignments>
 		<dependant>
 			<group>

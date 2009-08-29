@@ -1,3 +1,15 @@
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
+ *  
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
+ *  
+ * */
 package org.lsi.us.es.ReaperTests;
 
 import org.junit.Assert;
@@ -12,7 +24,7 @@ public class yahooMoviesTests {
 	public void yahooMoviesTest() throws LoadingModelException, JavaScriptException, ReapingProccessException {
 		
 		ReapingProcess p = new ReapingProcess();
-		Assert.assertFalse(p.start("yahooMovies-formModel.xml", "yahooMovies-queryModel.xml"));
+		Assert.assertFalse(p.start("Examples/yahoo/yahooMovies-formModel.xml", "Examples/yahoo/yahooMovies-queryModel.xml"));
 		
 	}
 }

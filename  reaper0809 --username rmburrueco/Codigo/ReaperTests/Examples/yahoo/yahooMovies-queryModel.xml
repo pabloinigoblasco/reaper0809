@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <query formUrl="yahooMovies">
 	<javaScript
-		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js" />
+		url="Examples/yahoo/yahooMovies-javascript-utils.js" />
 	<javaScript
-		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/yahooMovies-javascript-utils.js" />
+		url="http://reaper0809.googlecode.com/svn/trunk/%20reaper0809%20--username%20rmburrueco/Codigo/ReaperTests/reaper-javascript.js" />
 
 	<assignments>
 		<simple fieldId="searchMovies">

@@ -1,15 +1,23 @@
-/* Authors:
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
  *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
  *  
  * */
 
 package org.lsi.us.es.reaper.SeleniumFormFillerStrategy;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.lsi.us.es.reaper.Core.Configurations;
@@ -182,8 +190,16 @@ public class SeleniumFillerApplication implements IFormFiller {
 		for(int i=0;i<scripts.size();i++) {
 			j=scripts.get(i);
 			try {
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(j.toUrl().openStream()));
+				BufferedReader reader;
+				try
+				{
+				 reader= new BufferedReader(
+						new InputStreamReader(j.toUrl().toURL().openStream()));
+				}
+				catch(Exception ex)
+				{
+					reader=new BufferedReader(new FileReader(j.toUrl().getPath()));
+				}
 
 				String line = null;
 				StringBuilder stringBuilder = new StringBuilder();

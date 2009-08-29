@@ -1,7 +1,13 @@
-/* Authors:
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
  *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
  *  
  * */
 
@@ -81,6 +87,6 @@ public class LogSystem {
 		for(String err:errors)
 			log.severe(err);
 		
-		log.severe("Reaping proccess interrupted due xml-coherence errors");
+		log.severe("Reaping process interrupted due xml-coherence errors");
 	}
 }
