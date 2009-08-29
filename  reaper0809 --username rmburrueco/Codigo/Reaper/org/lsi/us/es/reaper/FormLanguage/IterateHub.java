@@ -78,7 +78,8 @@ public class IterateHub implements Action {
 
 						fw.write(formFiller.getCurrentHtmlContent());
 						fw.close();
-					} catch (FileNotFoundException ex) {
+					} catch (FileNotFoundException ex) 
+					{
 						throw new ReapingProccessException(ex);
 					}
 
@@ -103,7 +104,7 @@ public class IterateHub implements Action {
 	private Locator getElementLocatorByIndex(int i) {
 		Xpath locator = new Xpath();
 		String productExpression = getProduct().getValue();
-		Pattern p = Pattern.compile("(.*)child\\:\\:([^/\\[]*)((/|\\[).*)");
+		Pattern p = Pattern.compile("(.*)child\\:\\:([^/]*)((/|\\[).*)");
 		Matcher m = p.matcher(productExpression);
 		m.find();
 		productExpression = m.group(1) + m.group(2) + "[" + i + "]"
@@ -115,7 +116,7 @@ public class IterateHub implements Action {
 
 	private int getXpathCount(IFormFiller formFiller) {
 		String productExpression = getProduct().getValue();
-		Pattern p = Pattern.compile("(.*)child\\:\\:([^/\\[]*)(/|\\[.*)");
+		Pattern p = Pattern.compile("(.*)child\\:\\:([^/]*)(/|\\[.*)");
 		Matcher m = p.matcher(productExpression);
 
 		m.find();

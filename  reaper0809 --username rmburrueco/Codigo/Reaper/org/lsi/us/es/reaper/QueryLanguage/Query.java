@@ -177,15 +177,13 @@ public class Query {
 		} catch (ReapingProccessException e) {
 			LogSystem.settingValueFail(e);
 			return;
-			
-		}
-		catch (Exception ex) //tipicamente una timeoutException
+
+		} catch (Exception ex) // tipicamente una timeoutException
 		{
 			LogSystem.settingValueFail(new ReapingProccessException(ex));
 			return;
-			
-		}
-		finally {
+
+		} finally {
 			ReapingProcess.getFormFiller().registerVariable(
 					ScriptVariable.currentFieldLocator, null);
 			ReapingProcess.getFormFiller().registerVariable(
@@ -193,19 +191,18 @@ public class Query {
 			ReapingProcess.getFormFiller().registerVariable(
 					ScriptVariable.currentValue, null);
 		}
-		try
-		{
+		try {
 			this.launcEvent(EventEnumeration.fieldAssignmentsSetBegin);
 			formFiller.submit(form.getSubmit());
-		}
-		catch(Exception ex)//tipicamente una timeoutException
+		} catch (Exception ex)// tipicamente una timeoutException
 		{
 			LogSystem.submitFailed(new ReapingProccessException(ex));
 		}
 
 		boolean nextActionOrResult = true;
 		for (Result r : form.getResults()) {
-			if (r.applicable(formFiller.getCurrentHtmlContent(), formFiller.getCurrentUrl())) {
+			if (r.applicable(formFiller.getCurrentHtmlContent(), formFiller
+					.getCurrentUrl())) {
 				try {
 					for (Action a : r.getActions()) {
 
@@ -232,25 +229,35 @@ public class Query {
 	}
 
 	public void launcEvent(EventEnumeration eventName) {
+
 		if (events != null) {
 			for (Event e : events) {
-				if (e.getName() == eventName) {
+				if (e.getName().equals(eventName)) {
+					IFormFiller filler = ReapingProcess.getFormFiller();
 					try {
-						IFormFiller filler = ReapingProcess.getFormFiller();
+
 						filler.registerVariable(ScriptVariable.currentEvent,
 								eventName.toString());
-						filler.evalScript(e.getScriptExpression());
+						filler.runScript(e.getScriptExpression());
 						filler.registerVariable(ScriptVariable.currentEvent,
 								null);
-						filler.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+
 					} catch (Exception ex) {
-						LogSystem.scriptEventFailed(ex, this);
+						if (!eventName.equals(EventEnumeration.scriptException
+								.name()))
+							LogSystem.scriptEventFailed(ex, this);
+					}
+
+					try {
+						filler
+								.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+					} catch (Exception ex) {
 					}
 				}
 			}
 
 		}
-		
+
 	}
 
 	// ----------------- auxiliar methods-----------------------
@@ -301,8 +308,7 @@ public class Query {
 		}
 	}
 
-	public boolean validate(List<String> errors, Form f) 
-	{
+	public boolean validate(List<String> errors, Form f) {
 		// Comprobar que todos los campos del lenguaje de queries
 		// existen en el lenguaje de forms.
 		boolean error = false;
@@ -311,10 +317,12 @@ public class Query {
 			error |= a.validate(errors, f);
 
 		try {
-			ReapingProcess.getFormFiller().importScripts(getJavaScriptImports());
+			ReapingProcess.getFormFiller()
+					.importScripts(getJavaScriptImports());
 		} catch (LoadingModelException ex) {
 			error = true;
-			errors.add("Error cargando javaScripts especificados:\n"+ex.toString());
+			errors.add("Error cargando javaScripts especificados:\n"
+					+ ex.toString());
 		}
 
 		return error;

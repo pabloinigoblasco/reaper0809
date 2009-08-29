@@ -21,7 +21,7 @@
 		<result contentRegExp=".*">
 			<action-iterateHub>
 				<product>
-					<locator-xpath value="//div[@class='listView']//child::div[@class='productTitle']/a"/>
+					<locator-xpath value="//child::div[contains(@id,'result')]//div[@class='productTitle']/a[text()!=' ']"/>
 				</product>
 				<nextPage>
 					<locator-id value="pagnNextLink"/>
