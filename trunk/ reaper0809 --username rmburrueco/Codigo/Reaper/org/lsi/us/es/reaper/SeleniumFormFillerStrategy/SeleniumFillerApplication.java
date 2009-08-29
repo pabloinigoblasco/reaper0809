@@ -204,11 +204,14 @@ public class SeleniumFillerApplication implements IFormFiller {
 	}
 
 	public void runScript(String script) {
-		browser.runScript(script);
+		browser.removeScript("running_Script");
+		browser.addScript(script,"running_Script");
+		
 
 	}
 
 	public void addScript(String src, String tag) {
+		browser.removeScript(tag);
 		browser.addScript(src, tag);
 
 	}
