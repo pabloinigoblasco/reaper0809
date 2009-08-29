@@ -1,10 +1,20 @@
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
+ *  
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
+ *  
+ * */
 package org.lsi.us.es.ReaperTests;
 
 import org.junit.*;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
-import org.lsi.us.es.reaper.Core.Exceptions.JavaScriptException;
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
-import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Form;
 
 

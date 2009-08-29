@@ -1,7 +1,13 @@
-/* Authors:
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
  *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
  *  
  * */
 
@@ -32,7 +38,8 @@ public class ReapingProcess {
 			ReapingProccessException {
 		IFormFiller filler = null;
 
-		try {
+		try 
+		{
 			Query query = loadQueryModel(queryModelFilepath);
 			Form form = loadFormModel(formModelFilepath);
 			filler = getFormFiller();
@@ -40,8 +47,9 @@ public class ReapingProcess {
 			List<String> errors = new ArrayList<String>();
 			boolean formValidationErrors = form.validate(errors);
 			boolean queryValidationErrors = query.validate(errors, form);
-
+			
 			if (!formValidationErrors && !queryValidationErrors) {
+				generateCurrentDirectoryName(form);
 				initScriptVariables(filler);
 				linkData(form, query);
 				query.executeQuery(form, filler);
@@ -64,6 +72,17 @@ public class ReapingProcess {
 		}
 	}
 
+	static String currentDirectoryName;
+	public static void generateCurrentDirectoryName(Form f)
+	{
+		;
+	}
+	
+	public static String getCurrentDirectoryName()
+	{
+		return currentDirectoryName;
+	}
+	
 	private void initScriptVariables(IFormFiller f) {
 		for (ScriptVariable v : ScriptVariable.values())
 			f.registerVariable(v, null);

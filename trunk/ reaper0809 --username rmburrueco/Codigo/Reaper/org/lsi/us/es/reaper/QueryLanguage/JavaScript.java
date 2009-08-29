@@ -1,22 +1,26 @@
-/* Authors:
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
  *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
  *  
  * */
-
 package org.lsi.us.es.reaper.QueryLanguage;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 
 public class JavaScript 
 {
-	URL url;
-
-	public URL toUrl() {
+	URI url;
+	public URI toUrl() {
 		return url;
 	}
 	public String getUrl() {
@@ -25,8 +29,8 @@ public class JavaScript
 
 	public void setUrl(String url) throws LoadingModelException {
 		try {
-			this.url = new URL(url);
-		} catch (MalformedURLException e) {
+			this.url = new URI(url);
+		} catch (URISyntaxException e) {
 			throw new LoadingModelException(e);
 		}
 	}

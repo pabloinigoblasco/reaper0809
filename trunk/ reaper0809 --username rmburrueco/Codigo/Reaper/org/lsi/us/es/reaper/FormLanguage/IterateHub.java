@@ -1,7 +1,13 @@
-/* Authors:
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
  *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
  *  
  * */
 
@@ -19,15 +25,9 @@ import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Locators.Xpath;
 import org.lsi.us.es.reaper.QueryLanguage.EventEnumeration;
-import org.lsi.us.es.reaper.QueryLanguage/* Authors:
- *  
- * Pablo Iñigo Blasco
- * Rosa María Burrueco
- *  
- * */.Query;
+import org.lsi.us.es.reaper.QueryLanguage.Query;
 
 public class IterateHub implements Action {
-
 	Xpath product;
 	Locator nextPage;
 

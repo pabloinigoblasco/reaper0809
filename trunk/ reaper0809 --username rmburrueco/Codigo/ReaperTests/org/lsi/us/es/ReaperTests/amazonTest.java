@@ -1,3 +1,16 @@
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco
+ *  
+ * Directed by:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
+ *  
+ * */
+
 package org.lsi.us.es.ReaperTests;
 
 import org.junit.Assert;
@@ -12,7 +25,7 @@ public class amazonTest {
 	public void amazonTest() throws LoadingModelException, JavaScriptException, ReapingProccessException {
 		
 		ReapingProcess p = new ReapingProcess();
-		Assert.assertFalse(p.start("amazon-formModel.xml", "amazon-queryModel.xml"));
+		Assert.assertFalse(p.start("Examples/amazon/amazon-formModel.xml", "Examples/amazon/amazon-queryModel.xml"));
 		
 	}
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <query formUrl="iberia">
 	<javaScript
-		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/reaper-javascript.js"  />
+		url="reaper-javascript.js"  />
 	<javaScript
-		url="file:///media/Datos/Archivos/Universidad/Master/Tfm/reaper0809x/Codigo/ReaperTests/iberia-javascript-utils.js"  />
+		url="Examples/iberia/iberia-javascript-utils.js"  />
 	<assignments>
 		<dependant>
 			<group>
