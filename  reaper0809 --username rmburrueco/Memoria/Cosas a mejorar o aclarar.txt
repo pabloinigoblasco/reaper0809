@@ -1,3 +1,6 @@
 - comprobar las letras de los xml si merece la pena unificarlas
 - modelo de queries es extraño, ver si se puede aplicar modelo de consultas o query model en cada caso.
 - unificar formato de las tablas
+- revisar iterateHub
+- revisar xpath
+- revisar contentRegExp 
