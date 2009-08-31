@@ -4,3 +4,5 @@
 - revisar iterateHub
 - revisar xpath
 - revisar contentRegExp 
+- hablar de los form fillers
+- poner todas las imágenes con mismo formato
