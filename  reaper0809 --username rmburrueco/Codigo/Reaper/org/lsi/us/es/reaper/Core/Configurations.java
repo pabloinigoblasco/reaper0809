@@ -19,7 +19,8 @@ public class Configurations {
 	
 	public static final String SeleniumNavigator="*firefox";
 	public static final String FormFillerStrategy="org.lsi.us.es.reaper.SeleniumFormFillerStrategy.SeleniumFillerApplication";
-	public static final String submitWaitMilliseconds="30000";
+	public static final String submitWaitMilliseconds="20000";
+	public static final String afterEventsCodeWaitMilliseconds="500";
 	public static final String OutputDirectory="./Results/";
 	public static final String BrowserSpeed = "10";
 	

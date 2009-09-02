@@ -51,8 +51,8 @@ public class IterateHub implements Action {
 			throws ReapingProccessException {
 		boolean end = false;
 		int elementCount = 0;
-		q.launcEvent(EventEnumeration.actionBegin);
-		q.launcEvent(EventEnumeration.iterateHubNavigateInBegin);
+		q.launchEvent(EventEnumeration.actionBegin);
+		q.launchEvent(EventEnumeration.iterateHubNavigateInBegin);
 		
 		while (!end) {
 			int numberOfMoviesInThisPage = this.getXpathCount(formFiller);
@@ -72,7 +72,7 @@ public class IterateHub implements Action {
 					elementCount++;
 					try {
 						PrintWriter fw = new PrintWriter(new FileOutputStream(
-								Configurations.OutputDirectory
+								ReapingProcess.getCurrentDirectoryName()+"/"+
 										+ ReapingProcess.getAttemptId() + "-"
 										+ elementCount + ".html"));
 
@@ -84,11 +84,10 @@ public class IterateHub implements Action {
 					}
 
 					formFiller.goBack();
-					formFiller
-							.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+					formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
 				}
 			}
-			q.launcEvent(EventEnumeration.iterateHubPageFinished);
+			q.launchEvent(EventEnumeration.iterateHubPageFinished);
 			
 			if (formFiller.isElementPresent(this.getNextPage())) {
 				formFiller.click(this.getNextPage());
@@ -97,7 +96,7 @@ public class IterateHub implements Action {
 			} else
 				end = true;
 		}
-		q.launcEvent(EventEnumeration.actionFinished);
+		q.launchEvent(EventEnumeration.actionFinished);
 		return true;
 	}
 

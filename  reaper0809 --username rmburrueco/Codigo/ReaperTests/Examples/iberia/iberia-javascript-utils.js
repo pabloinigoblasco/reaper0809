@@ -1,4 +1,28 @@
-function getArrivalMonthLabel(val)
+var auxiliarDepartureDate=new Date();
+var auxiliarReturnDate=new Date();
+var lastCountry="";
+
+function pushDepartureDate(date)
+{
+	auxiliarDepartureDate.setDate(date.getDate());
+	return date;
+}
+function getDepartureDay()
+{
+	return auxiliarDepartureDate.getDate();
+}
+
+function pushReturnDate(date)
+{
+	auxiliarReturnDate.setDate(date.getDate());
+	return date;
+}
+function getReturnDay()
+{
+	return auxiliarReturnDate.getDate();
+}
+
+function getMonthLabel(val)
 {
 	locator=currentFieldLocator;
 	var select=selenium.browserbot.findElement(locator);
@@ -8,17 +32,25 @@ function getArrivalMonthLabel(val)
 	return text;
 }
 
+function waitOnCountryChanged(field,val)
+{
+	if(field=="departureCountry")
+	{
+		if(val!=lastCountry)
+		{
+			selenium.doWaitForPageToLoad("30000");
+			waitMillisecs(3000);
+		}
+	
+		lastCountry=val;
+	}
+
+}
+
 function avoidSpanishLanguage()
 {
 	if(selenium.isElementPresent("link=English"))
 	{
 		selenium.doClick("link=English");
-		selenium.doWaitForPageToLoad("30000");
-	/*	selenium.doClick("//a[@id='change']/span");
-		selenium.doWaitForPageToLoad("30000");
-		selenium.doSelect("country", "label=Reino Unido");
-		selenium.doWaitForPageToLoad("30000");
-		selenium.doClick("//input[@value='Cambiar...']");
-		selenium.doWaitForPageToLoad("30000");*/
 	}
 }

@@ -5,8 +5,8 @@
 	
 	<assignments>
 		<simple fieldId="search">
-			<value>Love</value>
 			<value>Java</value>
+			<value>Love</value>
 			<value>Selenium</value>
 		</simple>
 	</assignments>

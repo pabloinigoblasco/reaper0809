@@ -18,13 +18,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.lsi.us.es.reaper.Core.Configurations;
 import org.lsi.us.es.reaper.Core.IFormFiller;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
+import org.lsi.us.es.reaper.FormLanguage.Field;
+import org.lsi.us.es.reaper.FormLanguage.Form;
 import org.lsi.us.es.reaper.FormLanguage.Locator;
 import org.lsi.us.es.reaper.FormLanguage.Locators.Xpath;
 import org.lsi.us.es.reaper.QueryLanguage.JavaScript;
@@ -64,8 +69,9 @@ public class SeleniumFillerApplication implements IFormFiller {
 		if (browser == null) {
 			browser = new DefaultSelenium("localhost", 4444,
 					Configurations.SeleniumNavigator, url);
+
 			browser.start();
-			browser.setBrowserLogLevel("warn");
+			browser.setBrowserLogLevel("info");
 			browser.setSpeed(Configurations.BrowserSpeed);
 		}
 
@@ -125,7 +131,7 @@ public class SeleniumFillerApplication implements IFormFiller {
 	}
 
 	public void setRadioButtonElement(Locator radioLocator, String value,
-		ValueEntryType valueEntryType) {
+			ValueEntryType valueEntryType) {
 		String optionxpath = radioLocator.toXpathLocator().getExpression();
 		if (valueEntryType == ValueEntryType.display)
 			optionxpath += "/.[text()=\"" + value + "\"]";
@@ -154,12 +160,6 @@ public class SeleniumFillerApplication implements IFormFiller {
 		return browser.getLocation();
 	}
 
-	public String evalScript(String script) {
-
-		String ret = browser.getEval(script);
-		return ret;
-	}
-
 	public void click(Locator anchorLocator) {
 		browser.click(anchorLocator.getExpression());
 	}
@@ -186,19 +186,17 @@ public class SeleniumFillerApplication implements IFormFiller {
 
 	public void importScripts() throws LoadingModelException {
 
-		JavaScript j=null ;
-		for(int i=0;i<scripts.size();i++) {
-			j=scripts.get(i);
+		JavaScript j = null;
+		for (int i = 0; i < scripts.size(); i++) {
+			j = scripts.get(i);
 			try {
 				BufferedReader reader;
-				try
-				{
-				 reader= new BufferedReader(
-						new InputStreamReader(j.toUrl().toURL().openStream()));
-				}
-				catch(Exception ex)
-				{
-					reader=new BufferedReader(new FileReader(j.toUrl().getPath()));
+				try {
+					reader = new BufferedReader(new InputStreamReader(j.toUrl()
+							.toURL().openStream()));
+				} catch (Exception ex) {
+					reader = new BufferedReader(new FileReader(j.toUrl()
+							.getPath()));
 				}
 
 				String line = null;
@@ -211,40 +209,87 @@ public class SeleniumFillerApplication implements IFormFiller {
 				}
 				browser.addScript(stringBuilder.toString(), j.hashCode() + "");
 
-			} catch (IOException e) 
-			{
-				throw new LoadingModelException(e.getMessage()+"\n"+j.getUrl());
+			} catch (IOException e) {
+				throw new LoadingModelException(e.getMessage() + "\n"
+						+ j.getUrl());
 			}
 		}
 
 	}
 
+	// ------------------sistema de script----------------------
+	Map<ScriptVariable, String> variableMap = new HashMap<ScriptVariable, String>();
+
+	public String evalScript(String script) {
+
+		flushVariables();
+		String ret = browser.getEval(script);
+		return ret;
+	}
+
 	public void runScript(String script) {
 		browser.removeScript("running_Script");
-		browser.addScript(script,"running_Script");
-		
-
+		browser.addScript(script, "running_Script");
 	}
 
 	public void addScript(String src, String tag) {
 		browser.removeScript(tag);
+		flushVariables();
 		browser.addScript(src, tag);
 
 	}
 
 	public void unregisterScript(String tag) {
 		browser.removeScript(tag);
-
 	}
 
+	public void setVariableValue(ScriptVariable key, String value) {
+		
+		variableMap.put(key, value);
+	}
 
-	public void registerVariable(ScriptVariable key, String value) {
-		ReapingProcess.getFormFiller().unregisterScript(key.toString());
-		String setValue="null";
-		if(value!=null)
-			setValue="'"+value+"'";
-			
-		ReapingProcess.getFormFiller().addScript("var "+key.toString()+"="+setValue+";",key.toString());
+	private String auxiliarSetVariableValue(String v, String value,
+			boolean define) {
+		String setValue = "null";
+		if (value != null)
+			setValue = "'" + value.replace("\"", "\\\"")
+			.replace("'", "\\'") + "'";
+
+		if (define)
+			setValue = "var " + v + "=" + setValue + ";";
+		else
+			setValue = v.toString() + "=" + setValue + ";";
+		return setValue;
+	}
+
+	public void registerVariable(ScriptVariable v, String value) 
+	{
+		browser.addScript(auxiliarSetVariableValue(v.toString(), value, true), v.toString());
+	}
+
+	private void flushVariables() {
+		browser.removeScript("updateVariables");
+		String variables = new String();
+		for (Entry<ScriptVariable, String> e : variableMap.entrySet()) {
+
+			String line = variables += auxiliarSetVariableValue(e.getKey().toString(), e
+					.getValue(), false);
+			variables += line;
+		}
+
+		browser.addScript(variables,"updateVariables");
+	}
+	// ------------------fin sistema de script----------------------
+
+	public void registerFormLocators(Form form) 
+	{
+		String ctx="var reaperLocators=new Object();";
+		for(Field f:form.getFields())
+		{
+			ctx+=auxiliarSetVariableValue("reaperLocators."+f.getFieldId(), f.getLocator().getExpression(),false);
+		}
+		browser.addScript(ctx,"reaperContext");
 		
 	}
+
 }

@@ -1,24 +1,22 @@
 <?xml version="1.0" ?>
 <query formUrl="iberia">
-	<javaScript
-		url="reaper-javascript.js"  />
-	<javaScript
-		url="Examples/iberia/iberia-javascript-utils.js"  />
+	<javaScript url="reaper-javascript.js" />
+	<javaScript url="Examples/iberia/iberia-javascript-utils.js" />
 	<assignments>
 		<dependant>
 			<group>
-				<simple fieldId="departureCountry" useValueAs="display">
+				<simple fieldId="departureCountry">
 					<value>Portugal</value>
 				</simple>
-				<simple fieldId="departureCity" useValueAs="display">
+				<simple fieldId="departureCity">
 					<value>Funchal</value>
 				</simple>
 			</group>
 			<group>
-				<simple fieldId="departureCountry" useValueAs="display">
+				<simple fieldId="departureCountry">
 					<value>Spain</value>
 				</simple>
-				<simple fieldId="departureCity" useValueAs="display">
+				<simple fieldId="departureCity">
 					<value>Seville</value>
 					<value>Malaga</value>
 					<value>Jerez</value>
@@ -28,22 +26,22 @@
 
 		<dependant>
 			<group>
-				<simple fieldId="arrivalCity" useValueAs="display">
+				<simple fieldId="arrivalCity">
 					<value>Barcelona</value>
 					<value>Tenerife</value>
 					<value>La Coruña</value>
 				</simple>
-				<simple fieldId="numberOfPassengers" useValueAs="display">
+				<simple fieldId="numberOfPassengers">
 					<value>2</value>
 				</simple>
 			</group>
 			<group>
-				<simple fieldId="arrivalCity" useValueAs="display">
+				<simple fieldId="arrivalCity">
 					<value>London</value>
 					<value>Rome</value>
 					<value>Los Angeles</value>
 				</simple>
-				<simple fieldId="numberOfPassengers" useValueAs="display">
+				<simple fieldId="numberOfPassengers">
 					<value>1</value>
 				</simple>
 			</group>
@@ -54,80 +52,47 @@
 				<simple fieldId="onlyDeparture">
 					<value>false</value>
 				</simple>
-				<simple fieldId="arrivalMonth" useValueAs="display">
-					<value javascriptExpression="true">
-						getArrivalMonthLabel(getToday().getMonth()+6)</value>
+				
+				<simple fieldId="departureMonth">
+					<value javascriptExpression="true">getMonthLabel(pushDepartureDate(addDays(getToday(),10)).getMonth())</value>
+					<value javascriptExpression="true">getMonthLabel(pushDepartureDate(addDays(getToday(),20)).getMonth())</value>
+					<value javascriptExpression="true">getMonthLabel(pushDepartureDate(addDays(getToday(),30)).getMonth())</value>
 				</simple>
-				<simple fieldId="departureMonth" useValueAs="display">
-					<value>Sep</value>
+				<simple fieldId="departureDay">
+					<value javascriptExpression="true">getDepartureDay()</value>
+				</simple>
+				
+				<simple fieldId="returnMonth">
+					<value javascriptExpression="true">getMonthLabel(pushReturnDate(addDays(getToday(),50)).getMonth())</value>
+					<value javascriptExpression="true">getMonthLabel(pushReturnDate(addDays(getToday(),65)).getMonth())</value>
+					<value javascriptExpression="true">getMonthLabel(pushReturnDate(addDays(getToday(),80)).getMonth())</value>
+				</simple>
+				<simple fieldId="returnDay">
+					<value javascriptExpression="true">getReturnDay()</value>
 				</simple>
 			</group>
 			<group>
 				<simple fieldId="onlyDeparture">
 					<value>true</value>
 				</simple>
-				<simple fieldId="departureMonth" useValueAs="display">
-					<value>Sep</value>
+				<simple fieldId="departureMonth">
+					<value javascriptExpression="true">getMonthLabel(pushDepartureDate(addDays(getToday(),40)).getMonth())</value>
+				</simple>
+				<simple fieldId="departureDay">
+					<value javascriptExpression="true">getDepartureDay()</value>
 				</simple>
 			</group>
 		</dependant>
-
-		<simple fieldId="departureDay" useValueAs="display">
-			<value>8</value>
-			<value>9</value>
-			<value>10</value>
-			<value>11</value>
-		</simple>
-		<simple fieldId="arrivalDay" useValueAs="display">
-			<value>20</value>
-			<value>21</value>
-			<value>22</value>
-			<value>23</value>
+		<simple fieldId="ClassCategory">
+			<value javascriptExpression="true">getOptionTextByValue(currentField,'R')</value>
+			<value javascriptExpression="true">getOptionTextByValue(currentField,'E')</value>
 		</simple>
 	</assignments>
 
 	<events>
 		<event name="scriptException">showScriptExceptionMessage()</event>
-		<event name="reapingProcessBegin">
-			avoidSpanishLanguage()
-		</event>
-		
-		<!--
-			<event
-			name="reapingProcessFinished">showAlertWithAllScriptVariables()</event>
-		-->
-<!---->
-		<!--
-			<event
-			name="fieldAssignmentsSetBegin">showAlertWithAllScriptVariables()</event>
-		-->
-		<!--
-			<event
-			name="fieldAssignmentsSetEnd">showAlertWithAllScriptVariables()</event>
-		-->
-<!---->
-		<!--
-			<event
-			name="fieldAssignmentBegin">showAlertWithAllScriptVariables()</event>
-		-->
-		<!--
-			<event
-			name="fieldAssignmentEnd">showAlertWithAllScriptVariables()</event>
-		-->
-<!---->
-		<!--
-			<event name="submitStart">showAlertWithAllScriptVariables()</event>
-		-->
-		<!--
-			<event name="submitEnd">showAlertWithAllScriptVariables()</event>
-		-->
-<!---->
-		<!--
-			<event name="actionBegin">showAlertWithAllScriptVariables()</event>
-		-->
-		<!--
-			<event
-			name="actionFinished">showAlertWithAllScriptVariables()</event>
-		-->
+		<event name="reapingProcessBegin">avoidSpanishLanguage()</event>
+		<event name="reapingProcessBegin">avoidSpanishLanguage()</event>
+		<event name="fieldAssignmentFinished">waitOnCountryChanged(currentField,currentValue)</event>
 	</events>
 </query>

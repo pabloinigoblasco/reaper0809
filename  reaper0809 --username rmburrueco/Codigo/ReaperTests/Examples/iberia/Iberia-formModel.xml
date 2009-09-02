@@ -29,11 +29,11 @@
 			<locator-id value="mesAnioSalida" />
 		</select>
 
-		<select fieldId="arrivalDay">
+		<select fieldId="returnDay">
 			<locator-id value="diaRegreso" />
 		</select>
 
-		<select fieldId="arrivalMonth">
+		<select fieldId="returnMonth">
 			<locator-id value="mesRegreso" />
 		</select>
 
@@ -47,6 +47,10 @@
 
 		<select fieldId="numberOfPassengers">
 			<locator-name value="ADT" />
+		</select>
+		
+		<select fieldId="ClassCategory">
+			<locator-name value="FARE_TYPE"/>
 		</select>
 	</fields>
 

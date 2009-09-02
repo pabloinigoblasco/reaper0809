@@ -40,19 +40,17 @@ public class Classify implements Action{
 	public boolean apply(IFormFiller formFiller,Query q) throws ReapingProccessException {
 	    try 
 	    {
-			q.launcEvent(EventEnumeration.actionBegin);
+			q.launchEvent(EventEnumeration.actionBegin);
 			
-			
-	    	File directory=new File(Configurations.OutputDirectory+tag+"/");
+	    	File directory=new File(ReapingProcess.getCurrentDirectoryName()+"/"+tag+"/");
 	    	if(!directory.exists())
 	    		directory.mkdir();
 	    	
-	        PrintWriter fw =
-	            new PrintWriter(new FileOutputStream(Configurations.OutputDirectory+tag+"/" + ReapingProcess.getAttemptId() +".html"));
+	        PrintWriter fw = new PrintWriter(new FileOutputStream(ReapingProcess.getCurrentDirectoryName()+"/"+tag+"/" + ReapingProcess.getAttemptId() +".html"));
 	        fw.write(formFiller.getCurrentHtmlContent());
 	        fw.close();
 	        
-	        q.launcEvent(EventEnumeration.actionFinished);
+	        q.launchEvent(EventEnumeration.actionFinished);
 	    } 
 	    catch (FileNotFoundException ex) {
 	    	throw new ReapingProccessException(ex);
