@@ -13,9 +13,13 @@
 
 package org.lsi.us.es.reaper.Core;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
@@ -50,7 +54,7 @@ public class ReapingProcess {
 			
 			if (!formValidationErrors && !queryValidationErrors) {
 				generateCurrentDirectoryName(form);
-				initScriptVariables(filler);
+				initScriptVariables(filler,form);
 				linkData(form, query);
 				query.executeQuery(form, filler);
 				return false;
@@ -67,15 +71,37 @@ public class ReapingProcess {
 			throw e;
 		} finally {
 			if (filler != null)
+			{
 				filler.releaseResources();
+				LogSystem.releaseResources();
+			}
 			singletonInstance = null;
 		}
 	}
 
 	static String currentDirectoryName;
-	public static void generateCurrentDirectoryName(Form f)
+	private static void generateCurrentDirectoryName(Form f)
 	{
-		;
+		
+		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy_HHmm");
+	    Date date = new Date();
+	    String d= dateFormat.format(date);
+		    	
+		currentDirectoryName=Configurations.OutputDirectory;
+	    File directory=new File(currentDirectoryName);
+    	if(!directory.exists())
+    		directory.mkdir();
+    	
+    	currentDirectoryName+="/"+f.getIdentificationUrl();
+    	directory=new File(currentDirectoryName);
+    	if(!directory.exists())
+    		directory.mkdir();
+    	
+    	currentDirectoryName+="/"+d;
+    	directory=new File(currentDirectoryName);
+    	if(!directory.exists())
+    		directory.mkdir();
+    	
 	}
 	
 	public static String getCurrentDirectoryName()
@@ -83,9 +109,10 @@ public class ReapingProcess {
 		return currentDirectoryName;
 	}
 	
-	private void initScriptVariables(IFormFiller f) {
+	private void initScriptVariables(IFormFiller f,Form form) {
 		for (ScriptVariable v : ScriptVariable.values())
 			f.registerVariable(v, null);
+		f.registerFormLocators(form);
 
 	}
 
@@ -120,6 +147,9 @@ public class ReapingProcess {
 		try {
 			InputSource is = new InputSource(new FileReader(
 					modelMappinglFilePath));
+			
+			
+			
 			mapping.loadMapping(is);
 
 			XMLContext context = new XMLContext();

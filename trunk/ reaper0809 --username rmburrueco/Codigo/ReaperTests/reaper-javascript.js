@@ -21,6 +21,23 @@ function showScriptExceptionMessage()
 	alert(scriptExceptionMessage);
 }
 
+function addDays(sourceDate,days)
+{
+	var targetDate=new Date();
+	targetDate.setDate(sourceDate.getDate()+days);
+	return targetDate;
+}
+function getOptionTextByValue(fieldName,optionValue)
+{
+	var optionsctrl=selenium.browserbot.findElement(reaperLocators[fieldName]).options;
+	for (var i=0; i<optionsctrl.length; i++){
+		 if (optionsctrl[i].value==optionValue){
+			var ret=optionsctrl[i].text;
+			return ret;
+		}
+	}
+	return null;
+}
 function getToday()
 {
 	return new Date();

@@ -18,14 +18,14 @@ public enum EventEnumeration {
 	reapingProcessBegin,
 	reapingProcessFinished,
 	
-	fieldAssignmentsSetBegin,
-	fieldAssignmentsSetEnd,
+	queryBegin,
+	queryFinished,
 	
 	fieldAssignmentBegin,
-	fieldAssignmentEnd,
+	fieldAssignmentFinished,
 	
-	submitStart,
-	submitEnd,
+	submitBegin,
+	submitFinished,
 	
 	actionBegin,
 	actionFinished,

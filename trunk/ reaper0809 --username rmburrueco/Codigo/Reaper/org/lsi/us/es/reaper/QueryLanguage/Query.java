@@ -70,18 +70,18 @@ public class Query {
 	public void setFormURL(String formURL) {
 		this.formURL = formURL;
 	}
-	
+
 	public boolean validate(List<String> errors, Form f) {
 		// Comprobar que todos los campos del lenguaje de queries
 		// existen en el lenguaje de forms.
 		boolean error = false;
 
-		if(!f.getIdentificationUrl().equals(this.getFormURL()))
-		{
-			error=true;
-			errors.add("Query formUrl attribute must be the same than Form identificationUrl");
+		if (!f.getIdentificationUrl().equals(this.getFormURL())) {
+			error = true;
+			errors
+					.add("Query formUrl attribute must be the same than Form identificationUrl");
 		}
-		
+
 		for (Assignment a : getAssignments())
 			error |= a.validate(errors, f);
 
@@ -118,7 +118,7 @@ public class Query {
 
 			if (simpleAssignmentIndex == simpleAssignments.size() - 1) {
 
-				submitActivity(assignmentsMap, form, formFiller);
+				ProcessQueryActivity(assignmentsMap, form, formFiller);
 
 				countRequests++;
 
@@ -137,67 +137,80 @@ public class Query {
 		}
 	}
 
-	private void submitActivity(Map<Simple, Value> assignmentsMap, Form form,
-			IFormFiller formFiller) {
+	private void ProcessQueryActivity(Map<Simple, Value> assignmentsMap,
+			Form form, IFormFiller formFiller) {
 		ReapingProcess.nextAttempt();
 		form.getReachFormMethod().navigateToForm();
-		String calculatedValue = null;
-		this.launcEvent(EventEnumeration.fieldAssignmentsSetBegin);
-		try {
-			for (Entry<Simple, Value> e : assignmentsMap.entrySet()) {
-				Field f = e.getKey().getField();
 
-				ReapingProcess.getFormFiller().registerVariable(
+		LogSystem.NotifyStartingSubmitActivity(assignmentsMap);
+
+		// variables para ser utilizadas en caso de excepción
+		Field f = null;
+		String calculatedValue = null;
+
+		this.launchEvent(EventEnumeration.queryBegin);
+
+		for (Entry<Simple, Value> e : assignmentsMap.entrySet()) {
+			try {
+				f = e.getKey().getField();
+
+			
+				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentFieldLocator,
-						f.getLocator().getExpression().replace("\"", "\\\"")
-								.replace("'", "\\'"));
-				ReapingProcess.getFormFiller().registerVariable(
+						f.getLocator().getExpression());
+
+				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentField, f.getFieldId());
 
-				this.launcEvent(EventEnumeration.fieldAssignmentBegin);
+				this.launchEvent(EventEnumeration.fieldAssignmentBegin);
 				calculatedValue = e.getValue().evaluate();
+				if (e.getValue().isJavascriptExpression())
+					LogSystem.notifyAssignmentEvaluated(e.getValue().getVal(),
+							calculatedValue, f);
+
 				f.setValue(e.getValue(), calculatedValue, formFiller);
-				ReapingProcess.getFormFiller().registerVariable(
+				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentValue, calculatedValue);
 
-				formFiller.registerVariable(ScriptVariable.currentValue,
+				formFiller.setVariableValue(ScriptVariable.currentValue,
 						calculatedValue);
-				this.launcEvent(EventEnumeration.fieldAssignmentEnd);
-				ReapingProcess.getFormFiller().registerVariable(
+				this.launchEvent(EventEnumeration.fieldAssignmentFinished);
+
+			} catch (JavaScriptException ex) {
+				LogSystem.settingValueFail(ex, f, calculatedValue);
+				LogSystem.scriptEventFailed(ex, this);
+				return;
+			} catch (ReapingProccessException ex) {
+				LogSystem.settingValueFail(ex, f, calculatedValue);
+				return;
+
+			} catch (Exception ex) // tipicamente una timeoutException
+			{
+				LogSystem.settingValueFail(new ReapingProccessException(ex), f,
+						calculatedValue);
+				return;
+
+			} finally {
+				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentFieldLocator, null);
-				ReapingProcess.getFormFiller().registerVariable(
+				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentField, null);
-				ReapingProcess.getFormFiller().registerVariable(
+				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentValue, null);
 			}
-		} catch (JavaScriptException e) {
-			LogSystem.settingValueFail(e);
-			LogSystem.scriptEventFailed(e, this);
-			return;
-		} catch (ReapingProccessException e) {
-			LogSystem.settingValueFail(e);
-			return;
 
-		} catch (Exception ex) // tipicamente una timeoutException
-		{
-			LogSystem.settingValueFail(new ReapingProccessException(ex));
-			return;
-
-		} finally {
-			ReapingProcess.getFormFiller().registerVariable(
-					ScriptVariable.currentFieldLocator, null);
-			ReapingProcess.getFormFiller().registerVariable(
-					ScriptVariable.currentField, null);
-			ReapingProcess.getFormFiller().registerVariable(
-					ScriptVariable.currentValue, null);
 		}
+
 		try {
-			this.launcEvent(EventEnumeration.fieldAssignmentsSetBegin);
+			this.launchEvent(EventEnumeration.submitFinished);
 			formFiller.submit(form.getSubmit());
+			this.launchEvent(EventEnumeration.submitFinished);
 		} catch (Exception ex)// tipicamente una timeoutException
 		{
 			LogSystem.submitFailed(new ReapingProccessException(ex));
 		}
+
+		this.launchEvent(EventEnumeration.queryFinished);
 
 		boolean nextActionOrResult = true;
 		for (Result r : form.getResults()) {
@@ -206,13 +219,13 @@ public class Query {
 				try {
 					for (Action a : r.getActions()) {
 
-						formFiller.registerVariable(
+						formFiller.setVariableValue(
 								ScriptVariable.currentAction, a.getClass()
 										.getSimpleName());
 						nextActionOrResult = a.apply(formFiller, this);
 						if (!nextActionOrResult)
 							break;
-						formFiller.registerVariable(
+						formFiller.setVariableValue(
 								ScriptVariable.currentAction, null);
 					}
 					if (!nextActionOrResult)
@@ -220,7 +233,7 @@ public class Query {
 				} catch (ReapingProccessException e) {
 					LogSystem.applingResultFail(e);
 				} finally {
-					formFiller.registerVariable(ScriptVariable.currentAction,
+					formFiller.setVariableValue(ScriptVariable.currentAction,
 							null);
 				}
 			}
@@ -228,7 +241,6 @@ public class Query {
 		}
 	}
 
-	
 	public void executeQuery(Form form, IFormFiller formFiller)
 			throws JavaScriptException {
 		List<Simple> partialSimpleAssignments = new ArrayList<Simple>();
@@ -240,7 +252,7 @@ public class Query {
 		List<Simple> fullUndependantSimpleAssignmentSet = new ArrayList<Simple>();
 
 		Integer countRequests = 0;
-		launcEvent(EventEnumeration.reapingProcessBegin);
+		launchEvent(EventEnumeration.reapingProcessBegin);
 		if (groupSets.size() > 0) {
 			for (List<Group> gs : groupSets) {
 				fullUndependantSimpleAssignmentSet.clear();
@@ -258,11 +270,10 @@ public class Query {
 			processFullAssignmentSet(fullUndependantSimpleAssignmentSet, form,
 					formFiller, countRequests);
 		}
-		launcEvent(EventEnumeration.reapingProcessFinished);
+		launchEvent(EventEnumeration.reapingProcessFinished);
 	}
 
-	
-	public void launcEvent(EventEnumeration eventName) {
+	public void launchEvent(EventEnumeration eventName) {
 
 		if (events != null) {
 			for (Event e : events) {
@@ -270,21 +281,23 @@ public class Query {
 					IFormFiller filler = ReapingProcess.getFormFiller();
 					try {
 
-						filler.registerVariable(ScriptVariable.currentEvent,
+						filler.setVariableValue(ScriptVariable.currentEvent,
 								eventName.toString());
 						filler.evalScript(e.getScriptExpression());
-						filler.registerVariable(ScriptVariable.currentEvent,
-								null);
+						
 
 					} catch (Exception ex) {
 						if (!eventName.equals(EventEnumeration.scriptException
 								.name()))
 							LogSystem.scriptEventFailed(ex, this);
 					}
+					finally
+					{
+						filler.setVariableValue(ScriptVariable.currentEvent,null);
+					}
 
 					try {
-						filler
-								.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+						filler.waitForPageToLoad(Configurations.afterEventsCodeWaitMilliseconds);
 					} catch (Exception ex) {
 					}
 				}
@@ -341,7 +354,5 @@ public class Query {
 					tuplesList);
 		}
 	}
-
-	
 
 }

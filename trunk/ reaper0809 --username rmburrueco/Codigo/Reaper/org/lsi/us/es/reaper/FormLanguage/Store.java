@@ -32,17 +32,13 @@ public class Store implements Action
 	{
 	    try 
 	    {
-			q.launcEvent(EventEnumeration.actionBegin);
+			q.launchEvent(EventEnumeration.actionBegin);
 			
-	    	File directory=new File(Configurations.OutputDirectory);
-	    	if(!directory.exists())
-	    		directory.mkdir();
-	    	
 	        PrintWriter fw =
-	            new PrintWriter(new FileOutputStream(Configurations.OutputDirectory + ReapingProcess.getAttemptId() +".html"));
+	            new PrintWriter(new FileOutputStream(ReapingProcess.getCurrentDirectoryName()+"/"+ ReapingProcess.getAttemptId() +".html"));
 	        fw.write(formFiller.getCurrentHtmlContent());
 	        fw.close();
-	        q.launcEvent(EventEnumeration.actionFinished);
+	        q.launchEvent(EventEnumeration.actionFinished);
 	    } 
 	    catch (FileNotFoundException ex) 
 	    {

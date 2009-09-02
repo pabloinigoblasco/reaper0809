@@ -13,6 +13,7 @@ Cosas a comentar y cambios en el modelo:
 
 -------------------------------------------------------------------------
 Cosas ha hacer
+- Que los campos requiredd del modelo de formulario estÃ©n existentes en el modelo de queries
 - planificador
 - hacer por javascript el ejemplo de valores-colecciÃ³n con todas las letras del
 abecedario
@@ -22,7 +23,7 @@ abecedario
 - base de datos
 - Control de excepciones con los eventos (excepciones recursivas XD)
 - Idioma
-- La ñ (España y la Coruña no rulan)
+- La ï¿½ (Espaï¿½a y la Coruï¿½a no rulan)
 
 -------------------------------------------------------------------------
 Cosas de documentaciÃ³n:

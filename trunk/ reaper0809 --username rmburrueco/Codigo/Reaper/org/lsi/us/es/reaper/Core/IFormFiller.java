@@ -16,6 +16,7 @@ package org.lsi.us.es.reaper.Core;
 import java.util.List;
 
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
+import org.lsi.us.es.reaper.FormLanguage.Form;
 import org.lsi.us.es.reaper.FormLanguage.Locator;
 import org.lsi.us.es.reaper.FormLanguage.Locators.Xpath;
 import org.lsi.us.es.reaper.QueryLanguage.JavaScript;
@@ -24,6 +25,7 @@ import org.lsi.us.es.reaper.QueryLanguage.ValueEntryType;
 
 public interface IFormFiller {
 	void navigate(String url);
+
 	void releaseResources();
 
 	boolean isElementPresent(Locator f);
@@ -59,13 +61,16 @@ public interface IFormFiller {
 
 	int getXpathCount(Xpath x);
 
-	void importScripts(List<JavaScript> javaScriptImports) throws LoadingModelException ;
+	void importScripts(List<JavaScript> javaScriptImports)
+			throws LoadingModelException;
 
-	void runScript(String string);
 
-	void addScript(String string,String tag);
 
 	void unregisterScript(String string);
 
-	void registerVariable(ScriptVariable key, String value);
+	void setVariableValue(ScriptVariable key, String value);
+
+	void registerVariable(ScriptVariable v, String value);
+
+	void registerFormLocators(Form form);
 }
