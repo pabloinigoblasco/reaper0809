@@ -2,7 +2,9 @@
 <query formUrl="iberia">
 	<javaScript url="reaper-javascript.js" />
 	<javaScript url="Examples/iberia/iberia-javascript-utils.js" />
+	
 	<assignments>
+	
 		<dependant>
 			<group>
 				<simple fieldId="departureCountry">
@@ -91,7 +93,6 @@
 
 	<events>
 		<event name="scriptException">showScriptExceptionMessage()</event>
-		<event name="reapingProcessBegin">avoidSpanishLanguage()</event>
 		<event name="reapingProcessBegin">avoidSpanishLanguage()</event>
 		<event name="fieldAssignmentFinished">waitOnCountryChanged(currentField,currentValue)</event>
 	</events>
