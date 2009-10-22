@@ -32,6 +32,7 @@ public enum EventEnumeration {
 	
 	//específicos de iterateHub
 	iterateHubPageFinished,
-	iterateHubNavigateInBegin,
-	iterateHubNavigateInFinished,
+	iterateHubPageBegin,
+	iterateHubProductDetailBegin,
+	iterateHubProductDetailFinished
 }

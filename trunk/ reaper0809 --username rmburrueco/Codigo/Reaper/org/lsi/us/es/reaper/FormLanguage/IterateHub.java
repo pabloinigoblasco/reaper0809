@@ -26,6 +26,7 @@ import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Locators.Xpath;
 import org.lsi.us.es.reaper.QueryLanguage.EventEnumeration;
 import org.lsi.us.es.reaper.QueryLanguage.Query;
+import org.lsi.us.es.reaper.QueryLanguage.ScriptVariable;
 
 public class IterateHub implements Action {
 	Xpath product;
@@ -52,9 +53,11 @@ public class IterateHub implements Action {
 		boolean end = false;
 		int elementCount = 0;
 		q.launchEvent(EventEnumeration.actionBegin);
-		q.launchEvent(EventEnumeration.iterateHubNavigateInBegin);
 		
-		while (!end) {
+		
+		while (!end) 
+		{
+			q.launchEvent(EventEnumeration.iterateHubPageBegin);
 			int numberOfMoviesInThisPage = this.getXpathCount(formFiller);
 
 			for (int i = 1; i <= numberOfMoviesInThisPage; i++) {
@@ -62,12 +65,18 @@ public class IterateHub implements Action {
 				Locator anchorLocator = getElementLocatorByIndex(i);
 				if (formFiller.isElementPresent(anchorLocator)) {
 					try {
+						
+						formFiller.setVariableValue(ScriptVariable.currentProductLocator, anchorLocator.getExpression());
+						q.launchEvent(EventEnumeration.iterateHubProductDetailBegin);
 						formFiller.click(anchorLocator);
-						formFiller
-								.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+						formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
 					} catch (Exception ex)// tipicamente timeoutException
 					{
 						continue;
+					}
+					finally
+					{
+						formFiller.setVariableValue(ScriptVariable.currentProductLocator, null);
 					}
 					elementCount++;
 					try {
@@ -85,14 +94,26 @@ public class IterateHub implements Action {
 
 					formFiller.goBack();
 					formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+					try
+					{
+						formFiller.setVariableValue(ScriptVariable.currentProductLocator, anchorLocator.getExpression());
+						q.launchEvent(EventEnumeration.iterateHubProductDetailFinished);
+					}
+					finally
+					{
+						formFiller.setVariableValue(ScriptVariable.currentProductLocator, null);
+					}
+					
 				}
 			}
 			q.launchEvent(EventEnumeration.iterateHubPageFinished);
 			
 			if (formFiller.isElementPresent(this.getNextPage())) {
 				formFiller.click(this.getNextPage());
-				formFiller
-						.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+				try
+				{
+				formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+				}catch(Exception ex){}
 			} else
 				end = true;
 		}

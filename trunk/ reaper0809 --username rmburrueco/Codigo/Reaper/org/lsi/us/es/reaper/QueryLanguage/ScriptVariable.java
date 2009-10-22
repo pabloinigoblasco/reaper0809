@@ -19,5 +19,6 @@ public enum ScriptVariable {
 	currentAction,
 	currentEvent,
 	currentFieldLocator, 
-	scriptExceptionMessage
+	scriptExceptionMessage,
+	currentProductLocator
 }

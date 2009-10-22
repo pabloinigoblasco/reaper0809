@@ -33,6 +33,8 @@ import org.lsi.us.es.reaper.FormLanguage.Form;
 import org.lsi.us.es.reaper.FormLanguage.Action;
 import org.lsi.us.es.reaper.FormLanguage.Result;
 
+import sun.util.logging.resources.logging;
+
 public class Query {
 	String formURL;
 	List<Assignment> assignments;
@@ -102,6 +104,7 @@ public class Query {
 			throws JavaScriptException {
 		int[] currentValue = new int[simpleAssignments.size()];
 		boolean end = false;
+		boolean lastTime=false;
 
 		int simpleAssignmentIndex = 0;
 		SortedMap<Simple, Value> assignmentsMap = new TreeMap<Simple, Value>(
@@ -109,28 +112,32 @@ public class Query {
 
 		while (!end) {
 
-			Simple currentSimpleAssignment = simpleAssignments
-					.get(simpleAssignmentIndex);
+			//se escoje un campo
+			Simple currentSimpleAssignment = simpleAssignments.get(simpleAssignmentIndex);
+			
+			//se escoje el valor a asignar
 			int valueIndex = currentValue[simpleAssignmentIndex];
 
+			//se anota el par campo, valor
 			assignmentsMap.put(currentSimpleAssignment, currentSimpleAssignment
 					.getValues().get(valueIndex));
 
-			if (simpleAssignmentIndex == simpleAssignments.size() - 1) {
-
+			//en el caso de haber completado el mapa de asignaciones
+			if (simpleAssignmentIndex == simpleAssignments.size() - 1) 
+			{
 				ProcessQueryActivity(assignmentsMap, form, formFiller);
 
 				countRequests++;
-
 				end = true;
+				//en el caso que todos los campos tengan asignado su último valor, se ha tratado de la ultima vez
 				for (int j = 0; j < currentValue.length && end; j++)
-					if (currentValue[j] != simpleAssignments.get(j).getValues()
-							.size() - 1)
+					if (currentValue[j] != simpleAssignments.get(j).getValues().size()-1)
 						end = false;
+				
+				for(int j=0;j<currentValue.length;j++)
+					currentValue[j] = (currentValue[j]+1) % simpleAssignments.get(j).getValues().size();
 			}
 
-			currentValue[simpleAssignmentIndex] = (valueIndex + 1)
-					% currentSimpleAssignment.getValues().size();
 			simpleAssignmentIndex = (simpleAssignmentIndex + 1)
 					% simpleAssignments.size();
 
@@ -198,11 +205,10 @@ public class Query {
 				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentValue, null);
 			}
-
 		}
 
 		try {
-			this.launchEvent(EventEnumeration.submitFinished);
+			this.launchEvent(EventEnumeration.submitBegin);
 			formFiller.submit(form.getSubmit());
 			this.launchEvent(EventEnumeration.submitFinished);
 		} catch (Exception ex)// tipicamente una timeoutException
@@ -277,15 +283,31 @@ public class Query {
 
 		if (events != null) {
 			for (Event e : events) {
-				if (e.getName().equals(eventName)) {
+				if (e.getName().equals(eventName)) 
+				{
 					IFormFiller filler = ReapingProcess.getFormFiller();
 					try {
-
-						filler.setVariableValue(ScriptVariable.currentEvent,
-								eventName.toString());
-						filler.evalScript(e.getScriptExpression());
-						
-
+						if(e.getScriptExpression()!=null)
+						{
+							
+							String res;
+							do{
+								filler.setVariableValue(ScriptVariable.currentEvent,
+										eventName.toString());
+								 res= filler.evalScript(e.getScriptExpression());
+								 
+								 if(!res.equals("null") && !res.equals("false"))
+								 	Thread.sleep(1000);
+								 else
+									 break;
+								 
+							}while(true);
+							
+							try {
+								filler.waitForPageToLoad(Configurations.afterEventsCodeWaitMilliseconds);
+							} catch (Exception ex) {
+							}
+						}
 					} catch (Exception ex) {
 						if (!eventName.equals(EventEnumeration.scriptException
 								.name()))
@@ -296,13 +318,9 @@ public class Query {
 						filler.setVariableValue(ScriptVariable.currentEvent,null);
 					}
 
-					try {
-						filler.waitForPageToLoad(Configurations.afterEventsCodeWaitMilliseconds);
-					} catch (Exception ex) {
-					}
 				}
-			}
 
+			}
 		}
 
 	}
