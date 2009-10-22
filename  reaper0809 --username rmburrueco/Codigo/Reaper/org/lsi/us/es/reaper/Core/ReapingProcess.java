@@ -49,11 +49,11 @@ public class ReapingProcess {
 			filler = getFormFiller();
 			form.getReachFormMethod().navigateToForm();
 			List<String> errors = new ArrayList<String>();
+			generateCurrentDirectoryName(form);
 			boolean formValidationErrors = form.validate(errors);
 			boolean queryValidationErrors = query.validate(errors, form);
 			
 			if (!formValidationErrors && !queryValidationErrors) {
-				generateCurrentDirectoryName(form);
 				initScriptVariables(filler,form);
 				linkData(form, query);
 				query.executeQuery(form, filler);

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<query formUrl="barnesNoble">
+	<javaScript url="reaper-javascript.js" />
+	<assignments>
+		<simple fieldId="titulo">
+			<value>computers</value>
+			<value>cars</value>
+			<value>love</value>
+		</simple>
+		<simple fieldId="precio">
+			<value>under $10</value>
+			<value>over $50</value>
+		</simple>
+	</assignments>
+</query>

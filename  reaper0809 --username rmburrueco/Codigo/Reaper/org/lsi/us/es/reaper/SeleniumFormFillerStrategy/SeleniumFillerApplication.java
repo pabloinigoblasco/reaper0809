@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.lsi.us.es.reaper.Core.Configurations;
@@ -218,7 +219,7 @@ public class SeleniumFillerApplication implements IFormFiller {
 	}
 
 	// ------------------sistema de script----------------------
-	Map<ScriptVariable, String> variableMap = new HashMap<ScriptVariable, String>();
+	Map<ScriptVariable, String> variableMap = new TreeMap<ScriptVariable, String>();
 
 	public String evalScript(String script) {
 

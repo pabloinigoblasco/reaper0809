@@ -1,4 +1,3 @@
-
 function showAlertWithAllScriptVariables()
 {
 	var str="Reaper Variables:\n\n";

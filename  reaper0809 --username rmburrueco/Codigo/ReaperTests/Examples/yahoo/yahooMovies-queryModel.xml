@@ -14,8 +14,7 @@
 	</assignments>
 
 	<events>
-		<event name="scriptException">showScriptExceptionMessage()</event>
-		<event name="iterateHubNavigateInBegin">checkBlockingLinkNavigator()</event>
+		<event name="actionBegin">checkBlockingLinkNavigator()</event>
 		<event name="scriptException">showScriptExceptionMessage()</event>
 	</events>
 </query>
