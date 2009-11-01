@@ -16,11 +16,12 @@ package org.lsi.us.es.reaper.Core;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.XMLContext;
@@ -44,18 +45,28 @@ public class ReapingProcess {
 
 		try 
 		{
+			
+			LogSystem.Log("Loading query model...");
 			Query query = loadQueryModel(queryModelFilepath);
+			LogSystem.Log("Loading form model...");
 			Form form = loadFormModel(formModelFilepath);
+			LogSystem.Log("setting up form filling system...");
 			filler = getFormFiller();
 			form.getReachFormMethod().navigateToForm();
 			List<String> errors = new ArrayList<String>();
+			LogSystem.Log("generating output directory...");
 			generateCurrentDirectoryName(form);
+			LogSystem.Log("validating form model...");
 			boolean formValidationErrors = form.validate(errors);
+			LogSystem.Log("form model [OK]");
+			LogSystem.Log("validating query model...");
+			LogSystem.Log("query model [OK]");
 			boolean queryValidationErrors = query.validate(errors, form);
-			
 			if (!formValidationErrors && !queryValidationErrors) {
+				LogSystem.Log("Initializating system...");
 				initScriptVariables(filler,form);
 				linkData(form, query);
+				LogSystem.Log("Reaping process started.");
 				query.executeQuery(form, filler);
 				return false;
 			} else {
@@ -69,7 +80,10 @@ public class ReapingProcess {
 		} catch (JavaScriptException e) {
 			LogSystem.notifyError(e);
 			throw e;
-		} finally {
+		} 
+		// al terminar, haya error o no, liberar recursos.
+		finally 
+		{
 			if (filler != null)
 			{
 				filler.releaseResources();
@@ -90,17 +104,27 @@ public class ReapingProcess {
 		currentDirectoryName=Configurations.OutputDirectory;
 	    File directory=new File(currentDirectoryName);
     	if(!directory.exists())
+    	{
+    		LogSystem.Log("creating directory:" + directory.getPath());
     		directory.mkdir();
+    	}
     	
     	currentDirectoryName+="/"+f.getIdentificationUrl();
     	directory=new File(currentDirectoryName);
     	if(!directory.exists())
+    	{
+    		LogSystem.Log("creating directory:" + directory.getPath());
     		directory.mkdir();
+    	}
     	
     	currentDirectoryName+="/"+d;
     	directory=new File(currentDirectoryName);
     	if(!directory.exists())
+    	{
+    		LogSystem.Log("creating directory:" + directory.getPath());
     		directory.mkdir();
+    	}
+    	LogSystem.Log("working directory:" + directory.getPath());
     	
 	}
 	
@@ -142,13 +166,23 @@ public class ReapingProcess {
 	@SuppressWarnings("unchecked")
 	private Object loadModel(String modelFilepath,
 			String modelMappinglFilePath, Class c) throws LoadingModelException {
+
 		// Load Mapping
 		Mapping mapping = new Mapping();
 		try {
-			InputSource is = new InputSource(new FileReader(
-					modelMappinglFilePath));
 			
-			
+			File f=new File(modelMappinglFilePath);
+			InputSource is;
+			if(!f.exists())
+			{
+				InputStream ins=getClass().getClassLoader().getResource(modelMappinglFilePath).openStream();
+				if(ins==null || ins.available()==0)
+					LogSystem.Log("mapping file not found:"+modelMappinglFilePath);
+				is= new InputSource(ins);
+			}
+			else
+				is= new InputSource(new FileReader(f));
+			LogSystem.Log("loading model-mapping file: "+modelMappinglFilePath);
 			
 			mapping.loadMapping(is);
 

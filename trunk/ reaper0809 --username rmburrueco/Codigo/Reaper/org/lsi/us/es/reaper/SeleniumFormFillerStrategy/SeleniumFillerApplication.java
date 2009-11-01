@@ -82,13 +82,19 @@ public class SeleniumFillerApplication implements IFormFiller {
 
 	public void releaseResources() {
 
-		if (browser != null) {
-			browser.close();
-			browser = null;
+		try {
+			if (browser != null) {
+				browser.close();
+				browser = null;
+			}
+		} catch (Exception ex) {
 		}
-		if (server != null) {
-			server.stop();
-			server = null;
+		try {
+			if (server != null) {
+				server.stop();
+				server = null;
+			}
+		} catch (Exception ex) {
 		}
 	}
 
@@ -196,8 +202,18 @@ public class SeleniumFillerApplication implements IFormFiller {
 					reader = new BufferedReader(new InputStreamReader(j.toUrl()
 							.toURL().openStream()));
 				} catch (Exception ex) {
+					try
+					{
 					reader = new BufferedReader(new FileReader(j.toUrl()
 							.getPath()));
+					}
+					catch(Exception exb)
+					{
+						reader = new BufferedReader(
+									new InputStreamReader(
+									getClass().getClassLoader().getResource(j.getUrl()).openStream()));
+					}
+					
 				}
 
 				String line = null;
@@ -245,7 +261,7 @@ public class SeleniumFillerApplication implements IFormFiller {
 	}
 
 	public void setVariableValue(ScriptVariable key, String value) {
-		
+
 		variableMap.put(key, value);
 	}
 
@@ -253,8 +269,8 @@ public class SeleniumFillerApplication implements IFormFiller {
 			boolean define) {
 		String setValue = "null";
 		if (value != null)
-			setValue = "'" + value.replace("\"", "\\\"")
-			.replace("'", "\\'") + "'";
+			setValue = "'" + value.replace("\"", "\\\"").replace("'", "\\'")
+					+ "'";
 
 		if (define)
 			setValue = "var " + v + "=" + setValue + ";";
@@ -263,9 +279,9 @@ public class SeleniumFillerApplication implements IFormFiller {
 		return setValue;
 	}
 
-	public void registerVariable(ScriptVariable v, String value) 
-	{
-		browser.addScript(auxiliarSetVariableValue(v.toString(), value, true), v.toString());
+	public void registerVariable(ScriptVariable v, String value) {
+		browser.addScript(auxiliarSetVariableValue(v.toString(), value, true),
+				v.toString());
 	}
 
 	private void flushVariables() {
@@ -273,24 +289,24 @@ public class SeleniumFillerApplication implements IFormFiller {
 		String variables = new String();
 		for (Entry<ScriptVariable, String> e : variableMap.entrySet()) {
 
-			String line = variables += auxiliarSetVariableValue(e.getKey().toString(), e
-					.getValue(), false);
+			String line = variables += auxiliarSetVariableValue(e.getKey()
+					.toString(), e.getValue(), false);
 			variables += line;
 		}
 
-		browser.addScript(variables,"updateVariables");
+		browser.addScript(variables, "updateVariables");
 	}
+
 	// ------------------fin sistema de script----------------------
 
-	public void registerFormLocators(Form form) 
-	{
-		String ctx="var reaperLocators=new Object();";
-		for(Field f:form.getFields())
-		{
-			ctx+=auxiliarSetVariableValue("reaperLocators."+f.getFieldId(), f.getLocator().getExpression(),false);
+	public void registerFormLocators(Form form) {
+		String ctx = "var reaperLocators=new Object();";
+		for (Field f : form.getFields()) {
+			ctx += auxiliarSetVariableValue("reaperLocators." + f.getFieldId(),
+					f.getLocator().getExpression(), false);
 		}
-		browser.addScript(ctx,"reaperContext");
-		
+		browser.addScript(ctx, "reaperContext");
+
 	}
 
 }

@@ -27,7 +27,7 @@ function getMonthLabel(val)
 	locator=currentFieldLocator;
 	var select=selenium.browserbot.findElement(locator);
 	var currentDate=new Date();
-	val=(val-currentDate.getMonth())%12;
+	val=Math.abs(val-currentDate.getMonth())%12;
 	var text=select.options[val].text;
 	return text;
 }
@@ -44,7 +44,6 @@ function waitOnCountryChanged(field,val)
 	
 		lastCountry=val;
 	}
-
 }
 
 function avoidSpanishLanguage()
@@ -53,4 +52,14 @@ function avoidSpanishLanguage()
 	{
 		selenium.doClick("link=English");
 	}
+
+	//ejemplo de eventos como punto de sincronización por condición
+	return !selenium.isElementPresent("link=Fligths");
+
+	//ejemplo con otro lenguaje
+	//	if(selenium.isElementPresent("link=Español"))
+	//	{
+	//		selenium.doClick("link=Español");
+	//	}
+	//	return !selenium.isElementPresent("link=Vuelos");
 }

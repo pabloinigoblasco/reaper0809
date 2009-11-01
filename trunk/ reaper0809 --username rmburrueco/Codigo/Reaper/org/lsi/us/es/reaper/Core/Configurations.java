@@ -14,14 +14,14 @@
 package org.lsi.us.es.reaper.Core;
 
 public class Configurations {
-	public static final String FormModelMappingFile ="formmodel-mapping.xml";
-	public static final String QueryModelMappingFile ="querymodel-mapping.xml";
+	public static String FormModelMappingFile ="formmodel-mapping.xml";
+	public static String QueryModelMappingFile ="querymodel-mapping.xml";
 	
-	public static final String SeleniumNavigator="*opera";
-	public static final String FormFillerStrategy="org.lsi.us.es.reaper.SeleniumFormFillerStrategy.SeleniumFillerApplication";
-	public static final String submitWaitMilliseconds="20000";
-	public static final String afterEventsCodeWaitMilliseconds="500";
-	public static final String OutputDirectory="./Results/";
-	public static final String BrowserSpeed = "10";
+	public static String SeleniumNavigator="*firefox";
+	public static String FormFillerStrategy="org.lsi.us.es.reaper.SeleniumFormFillerStrategy.SeleniumFillerApplication";
+	public static String submitWaitMilliseconds="20000";
+	public static String afterEventsCodeWaitMilliseconds="500";
+	public static String OutputDirectory="./Results/";
+	public static String BrowserSpeed = "10";
 	
 }
