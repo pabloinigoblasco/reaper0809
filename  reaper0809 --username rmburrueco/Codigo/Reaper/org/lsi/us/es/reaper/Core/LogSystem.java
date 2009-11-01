@@ -41,23 +41,31 @@ import org.lsi.us.es.reaper.QueryLanguage.Value;
 public class LogSystem 
 {
 	static protected Logger log;
-	static protected PrintWriter fw;
+	static protected PrintWriter fwx;
 	
+	static protected PrintWriter getFwx()
+	{
+		if(fwx==null)
+		{
+			try {
+				fwx =new PrintWriter(new FileOutputStream(ReapingProcess.getCurrentDirectoryName()+"/"+ "ResultLog.txt"));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return fwx;
+	}
 	static 
 	{
 		log = Logger.getLogger(ReapingProcess.class.getName());
-		try {
-			fw =new PrintWriter(new FileOutputStream(ReapingProcess.getCurrentDirectoryName()+"/"+ "ResultLog.txt"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	public static void releaseResources()
 	{
-		if(fw!=null)
-			fw.close();
+		if(getFwx()!=null)
+			getFwx().close();
 	}
 	public static void notifyError(String error) {
 		log.log(Level.SEVERE, error);
@@ -73,11 +81,12 @@ public class LogSystem
 
 	public static void Log(String text) {
 		log.log(Level.INFO, text);
+
 	}
 
 	public static void submitFailed(ReapingProccessException ex) {
 		log.log(Level.SEVERE, ex.getMessage());
-		fw.println(ex.getMessage());
+		getFwx().println(ex.getMessage());
 
 	}
 
@@ -88,7 +97,7 @@ public class LogSystem
 		msg+=e.getMessage();
 		
 		log.warning(msg);
-		fw.println(msg);
+		getFwx().println(msg);
 
 	}
 	public static void settingValueFail(JavaScriptException e, Field f, String calculatedValue) {
@@ -96,13 +105,13 @@ public class LogSystem
 		msg+=e.getMessage();
 		
 		log.warning(msg);
-		fw.println(msg);
+		getFwx().println(msg);
 	}
 
 	public static void applingResultFail(ReapingProccessException e) {
 		// TODO Auto-generated method stub
 		log.log(Level.SEVERE, e.getMessage());
-		fw.println(e.getMessage());
+		getFwx().println(e.getMessage());
 	}
 
 	
@@ -119,29 +128,29 @@ public class LogSystem
 	public static void logXmlCoherenceErrors(List<String> errors) 
 	{
 		// TODO Auto-generated method stub
-		fw.println("Initializing..");
+		getFwx().println("Initializing..");
 		for(String err:errors)
 		{
 			log.severe(err);
-			fw.println("err");
+			getFwx().println("err");
 		}
 		
 		log.severe("Reaping process interrupted due xml-coherence errors");
-		fw.println("Reaping process interrupted due xml-coherence errors");
+		getFwx().println("Reaping process interrupted due xml-coherence errors");
 	}
 
 	public static void NotifyStartingSubmitActivity(
 			Map<Simple, Value> assignmentsMap) 
 	{
-		fw.println("------------------------------------");
-		fw.println("Query: "+ReapingProcess.getAttemptId());
+		getFwx().println("------------------------------------");
+		getFwx().println("Query: "+ReapingProcess.getAttemptId());
 		
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	    Date date = new Date();
 	    String d= dateFormat.format(date);
 	    
-	    fw.println("Time: "+d+"\n");
-	    fw.println("Asignments:");
+	    getFwx().println("Time: "+d+"\n");
+	    getFwx().println("Asignments:");
 		for(Entry<Simple,Value> entry:assignmentsMap.entrySet())
 		{
 			String assignmentLog="\t"+entry.getKey().getFieldId()+" : ";
@@ -149,14 +158,14 @@ public class LogSystem
 				assignmentLog+="${"+entry.getValue().getVal()+"}";
 			else 
 				assignmentLog+=entry.getValue().getVal();
-			fw.println(assignmentLog);
+			getFwx().println(assignmentLog);
 		}
-		fw.println();
-		fw.flush();
+		getFwx().println();
+		getFwx().flush();
 	}
 	public static void notifyAssignmentEvaluated(String expression, String calculatedValue,Field f) 
 	{
-		fw.println("[dynamic assignment] "+f.getFieldId() +" <= "+calculatedValue);
+		getFwx().println("[dynamic assignment] "+f.getFieldId() +" <= "+calculatedValue);
 	}
 	
 }
