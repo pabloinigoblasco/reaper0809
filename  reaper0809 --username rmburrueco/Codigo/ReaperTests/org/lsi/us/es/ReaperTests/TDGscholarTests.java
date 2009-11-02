@@ -10,7 +10,6 @@
  * Universidad de Sevilla 2009
  *  
  * */
-
 package org.lsi.us.es.ReaperTests;
 
 import org.junit.Assert;
@@ -20,14 +19,14 @@ import org.lsi.us.es.reaper.Core.Exceptions.JavaScriptException;
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 
-public class amazonTest {
+public class TDGscholarTests {
+
 	@Test
-	public void amazonTest() throws LoadingModelException, JavaScriptException,
-			ReapingProccessException {
-
+	public void ulisesFormFillingTest() throws LoadingModelException,
+			JavaScriptException, ReapingProccessException {
 		ReapingProcess p = new ReapingProcess();
-		Assert.assertFalse(p.start("Examples/amazon/amazon-formModel.xml",
-				"Examples/amazon/amazon-queryModel.xml"));
-
+		Assert.assertFalse(p.start(
+				"Examples/tdgscholar/TDGscholar-formModel.xml",
+				"Examples/tdgscholar/TDGscholar-queryModel.xml"));
 	}
 }

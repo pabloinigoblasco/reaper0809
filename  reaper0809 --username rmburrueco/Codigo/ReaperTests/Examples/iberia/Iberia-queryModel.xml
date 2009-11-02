@@ -3,7 +3,6 @@
 	<javaScript url="reaper-javascript.js" />
 	<javaScript url="Examples/iberia/iberia-javascript-utils.js" />
 	
-	
 	<assignments>
 	
 		<dependant>
@@ -93,7 +92,7 @@
 	</assignments>
 
 	<events>
-		<event name="scriptException">showScriptExceptionMessage()</event>
+		<!--<event name="scriptException">showScriptExceptionMessage()</event>-->
 		<event name="reapingProcessBegin">avoidSpanishLanguage()</event>
 		<event name="fieldAssignmentFinished">waitOnCountryChanged(currentField,currentValue)</event>
 	</events>

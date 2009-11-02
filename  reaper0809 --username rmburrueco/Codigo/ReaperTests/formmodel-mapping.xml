@@ -70,7 +70,7 @@
 	<class name="org.lsi.us.es.reaper.FormLanguage.IterateHub">
 		<map-to xml="action-iterateHub"/>
 
-		<field name="nextPage" type="org.lsi.us.es.reaper.FormLanguage.Locator" required="true" nillable="false">
+		<field name="nextPage" type="org.lsi.us.es.reaper.FormLanguage.Locator" nillable="false">
 			<bind-xml auto-naming="deriveByClass" node="element" location="nextPage"/>
 		</field>
 

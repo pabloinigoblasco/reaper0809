@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -21,10 +21,12 @@ import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 
 public class yahooMoviesTests {
 	@Test
-	public void yahooMoviesTest() throws LoadingModelException, JavaScriptException, ReapingProccessException {
-		
+	public void yahooMoviesTest() throws LoadingModelException,
+			JavaScriptException, ReapingProccessException {
+
 		ReapingProcess p = new ReapingProcess();
-		Assert.assertFalse(p.start("Examples/yahoo/yahooMovies-formModel.xml", "Examples/yahoo/yahooMovies-queryModel.xml"));
-		
+		Assert.assertFalse(p.start("Examples/yahoo/yahooMovies-formModel.xml",
+				"Examples/yahoo/yahooMovies-queryModel.xml"));
+
 	}
 }

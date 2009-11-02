@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -22,9 +22,10 @@ import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 public class IberiaTest {
 
 	@Test
-	public void iberiaFormFillingTest() throws LoadingModelException, JavaScriptException, ReapingProccessException
-	{
-		ReapingProcess p=new ReapingProcess();
-		Assert.assertFalse(p.start("Examples/iberia/Iberia-formModel.xml", "Examples/iberia/Iberia-queryModel.xml"));
+	public void iberiaFormFillingTest() throws LoadingModelException,
+			JavaScriptException, ReapingProccessException {
+		ReapingProcess p = new ReapingProcess();
+		Assert.assertFalse(p.start("Examples/iberia/Iberia-formModel.xml",
+				"Examples/iberia/Iberia-queryModel.xml"));
 	}
 }

@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -17,23 +17,20 @@ import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.FormLanguage.Form;
 
-
-public class NavigationTests{
-
+public class NavigationTests {
 
 	@Test
-	public void navigateToFormTest()
-	{
-		ReapingProcess p=new ReapingProcess();
+	public void navigateToFormTest() {
+		ReapingProcess p = new ReapingProcess();
 		try {
-			Form f=p.loadFormModel("Iberia-formModel.xml");
+			Form f = p.loadFormModel("Iberia-formModel.xml");
 			f.getReachFormMethod().navigateToForm();
-			
+
 		} catch (LoadingModelException e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
-		
+
 	}
-	
+
 }

@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  

@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.lsi.us.es.reaper.Core.Configurations;
 import org.lsi.us.es.reaper.Core.IFormFiller;
+import org.lsi.us.es.reaper.Core.LogSystem;
 import org.lsi.us.es.reaper.Core.ReapingProcess;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Locators.Xpath;
@@ -53,32 +54,38 @@ public class IterateHub implements Action {
 		boolean end = false;
 		int elementCount = 0;
 		q.launchEvent(EventEnumeration.actionBegin);
+		int page=0;
 		
 		
 		while (!end) 
 		{
 			q.launchEvent(EventEnumeration.iterateHubPageBegin);
 			int numberOfMoviesInThisPage = this.getXpathCount(formFiller);
+			LogSystem.LogInResults(numberOfMoviesInThisPage+" products in this page("+page+")");
 
-			for (int i = 1; i <= numberOfMoviesInThisPage; i++) {
+			for (int i = 1; i <= numberOfMoviesInThisPage; i++,elementCount++) {
 
 				Locator anchorLocator = getElementLocatorByIndex(i);
 				if (formFiller.isElementPresent(anchorLocator)) {
-					try {
-						
-						formFiller.setVariableValue(ScriptVariable.currentProductLocator, anchorLocator.getExpression());
-						q.launchEvent(EventEnumeration.iterateHubProductDetailBegin);
+					formFiller.setVariableValue(ScriptVariable.currentProductLocator, anchorLocator.getExpression());
+					q.launchEvent(EventEnumeration.iterateHubProductDetailBegin);
+					
+					try 
+					{
 						formFiller.click(anchorLocator);
 						formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
-					} catch (Exception ex)// tipicamente timeoutException
+					} 
+					catch (Exception ex)// error en la respuesta del servidor, o en el script
 					{
+						String msg="Product: "+elementCount+" ["+ i+ " of page "+page+"] (Locator:"+anchorLocator.getExpression()+")\n ERROR"+ ex.toString();
+						LogSystem.LogInResults(msg);
 						continue;
 					}
-					finally
-					{
-						formFiller.setVariableValue(ScriptVariable.currentProductLocator, null);
-					}
-					elementCount++;
+					formFiller.setVariableValue(ScriptVariable.currentProductLocator, null);
+					
+					
+			
+					//guardando en disco
 					try {
 						PrintWriter fw = new PrintWriter(new FileOutputStream(
 								ReapingProcess.getCurrentDirectoryName()+"/"+
@@ -94,25 +101,26 @@ public class IterateHub implements Action {
 
 					formFiller.goBack();
 					formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
-					try
-					{
-						formFiller.setVariableValue(ScriptVariable.currentProductLocator, anchorLocator.getExpression());
-						q.launchEvent(EventEnumeration.iterateHubProductDetailFinished);
-					}
-					finally
-					{
-						formFiller.setVariableValue(ScriptVariable.currentProductLocator, null);
-					}
 					
+					formFiller.setVariableValue(ScriptVariable.currentProductLocator, anchorLocator.getExpression());
+					q.launchEvent(EventEnumeration.iterateHubProductDetailFinished);
+					formFiller.setVariableValue(ScriptVariable.currentProductLocator, null);
 				}
+				else
+				{
+					String msg="Product: "+elementCount+" ["+ i+ " of page "+page+"] NOT FOUND (Locator:"+anchorLocator.getExpression()+")";
+					LogSystem.LogInResults(msg);
+				}
+				
 			}
 			q.launchEvent(EventEnumeration.iterateHubPageFinished);
 			
-			if (formFiller.isElementPresent(this.getNextPage())) {
+			if (this.getNextPage()!=null && formFiller.isElementPresent(this.getNextPage())) {
 				formFiller.click(this.getNextPage());
 				try
 				{
-				formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+					formFiller.waitForPageToLoad(Configurations.submitWaitMilliseconds);
+					page++;
 				}catch(Exception ex){}
 			} else
 				end = true;

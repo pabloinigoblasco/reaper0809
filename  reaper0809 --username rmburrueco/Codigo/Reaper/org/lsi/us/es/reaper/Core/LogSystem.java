@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -25,8 +25,6 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lsi.us.es.reaper.Core.Exceptions.JavaScriptException;
-import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Field;
 import org.lsi.us.es.reaper.QueryLanguage.EventEnumeration;
@@ -72,14 +70,15 @@ public class LogSystem
 	}
 
 	public static void notifyError(Exception ex) {
-		log.log(Level.SEVERE, ex.getMessage());
+		
+		log.log(Level.SEVERE, ex.toString()+"\n"+ex.getLocalizedMessage());
 	}
 
 	public static void warn(String warning) {
 		log.log(Level.WARNING, warning);
 	}
 
-	public static void Log(String text) {
+	public static void logConsole(String text) {
 		log.log(Level.INFO, text);
 
 	}
@@ -91,21 +90,16 @@ public class LogSystem
 	}
 
 	
-	public static void settingValueFail(ReapingProccessException e, Field f,
-			String calculatedValue) {
+	public static void settingDynamicFieldValueException(ReapingProccessException e, Field f, String calculatedValue, IFormFiller filler, Query q) {
 		String msg=f.getFieldId()+"<-"+calculatedValue+"\n";
 		msg+=e.getMessage();
 		
 		log.warning(msg);
 		getFwx().println(msg);
+		
+		filler.setVariableValue(ScriptVariable.scriptExceptionMessage,msg);
+		q.launchEvent(EventEnumeration.scriptException);
 
-	}
-	public static void settingValueFail(JavaScriptException e, Field f, String calculatedValue) {
-		String msg=f.getFieldId()+"<-"+calculatedValue+"\n";
-		msg+=e.getMessage();
-		
-		log.warning(msg);
-		getFwx().println(msg);
 	}
 
 	public static void applingResultFail(ReapingProccessException e) {
@@ -115,13 +109,14 @@ public class LogSystem
 	}
 
 	
-	public static void scriptEventFailed(Exception ex,Query q) 
+	public static void scriptEventFailed(Exception ex,Query q,EventEnumeration failedEvent) 
 	{
 		IFormFiller formFiller=ReapingProcess.getFormFiller();
-		formFiller.setVariableValue(ScriptVariable.scriptExceptionMessage,ex.getMessage());
+		String msg="Javascript code failed at the reaping event: '"+failedEvent+"':"+ex.getMessage();
+		
+		formFiller.setVariableValue(ScriptVariable.scriptExceptionMessage,msg);
 		q.launchEvent(EventEnumeration.scriptException);
-		// TODO Auto-generated method stublogXmlCoherenceErrors
-		log.warning(ex.getMessage());
+		log.warning(msg);
 		formFiller.setVariableValue(ScriptVariable.scriptExceptionMessage,null);
 	}
 
@@ -163,9 +158,15 @@ public class LogSystem
 		getFwx().println();
 		getFwx().flush();
 	}
+	
 	public static void notifyAssignmentEvaluated(String expression, String calculatedValue,Field f) 
 	{
 		getFwx().println("[dynamic assignment] "+f.getFieldId() +" <= "+calculatedValue);
 	}
 	
+	public static void LogInResults(String msg)
+	{
+		getFwx().println(msg);
+		getFwx().flush();
+	}	
 }

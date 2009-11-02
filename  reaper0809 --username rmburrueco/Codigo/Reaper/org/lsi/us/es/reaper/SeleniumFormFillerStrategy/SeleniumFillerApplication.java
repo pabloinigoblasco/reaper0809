@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -17,8 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,7 +25,7 @@ import java.util.Map.Entry;
 
 import org.lsi.us.es.reaper.Core.Configurations;
 import org.lsi.us.es.reaper.Core.IFormFiller;
-import org.lsi.us.es.reaper.Core.ReapingProcess;
+
 import org.lsi.us.es.reaper.Core.Exceptions.LoadingModelException;
 import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
 import org.lsi.us.es.reaper.FormLanguage.Field;
@@ -194,41 +193,41 @@ public class SeleniumFillerApplication implements IFormFiller {
 	public void importScripts() throws LoadingModelException {
 
 		JavaScript j = null;
-		for (int i = 0; i < scripts.size(); i++) {
-			j = scripts.get(i);
-			try {
-				BufferedReader reader;
+		if (scripts != null) {
+			for (int i = 0; i < scripts.size(); i++) {
+				j = scripts.get(i);
 				try {
-					reader = new BufferedReader(new InputStreamReader(j.toUrl()
-							.toURL().openStream()));
-				} catch (Exception ex) {
-					try
-					{
-					reader = new BufferedReader(new FileReader(j.toUrl()
-							.getPath()));
+					BufferedReader reader;
+					try {
+						reader = new BufferedReader(new InputStreamReader(j
+								.toUrl().toURL().openStream()));
+					} catch (Exception ex) {
+						try {
+							reader = new BufferedReader(new FileReader(j
+									.toUrl().getPath()));
+						} catch (Exception exb) {
+							reader = new BufferedReader(new InputStreamReader(
+									getClass().getClassLoader().getResource(
+											j.getUrl()).openStream()));
+						}
+
 					}
-					catch(Exception exb)
-					{
-						reader = new BufferedReader(
-									new InputStreamReader(
-									getClass().getClassLoader().getResource(j.getUrl()).openStream()));
+
+					String line = null;
+					StringBuilder stringBuilder = new StringBuilder();
+					String ls = System.getProperty("line.separator");
+
+					while ((line = reader.readLine()) != null) {
+						stringBuilder.append(line);
+						stringBuilder.append(ls);
 					}
-					
+					browser.addScript(stringBuilder.toString(), j.hashCode()
+							+ "");
+
+				} catch (IOException e) {
+					throw new LoadingModelException(e.getMessage() + "\n"
+							+ j.getUrl());
 				}
-
-				String line = null;
-				StringBuilder stringBuilder = new StringBuilder();
-				String ls = System.getProperty("line.separator");
-
-				while ((line = reader.readLine()) != null) {
-					stringBuilder.append(line);
-					stringBuilder.append(ls);
-				}
-				browser.addScript(stringBuilder.toString(), j.hashCode() + "");
-
-			} catch (IOException e) {
-				throw new LoadingModelException(e.getMessage() + "\n"
-						+ j.getUrl());
 			}
 		}
 
