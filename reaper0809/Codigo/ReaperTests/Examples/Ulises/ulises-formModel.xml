@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>        
+<formModel identificationUrl="http://es.ulises.com/">  
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://es.ulises.com/"/>
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-id value="buscar"/>
+	</submitLocator>
+
+	<fields>
+	    <radioGroup fieldId="idayvuelta">
+			<locator-id value="idayvuelta" />
+		</radioGroup>
+		
+		<checkBox fieldId="soloDirectos">
+			<locator-id value="soloDirectos" />
+		</checkBox>
+		
+	    <textBox fieldId="origen">
+			<locator-id value="origen" />
+		</textBox>
+		
+		<checkBox fieldId="aeropuertosCercanosIda">
+			<locator-id value="buscarCercanosIda" />
+		</checkBox>
+
+		<textBox fieldId="destino">
+			<locator-id value="destino" />
+		</textBox>
+		
+		<checkBox fieldId="aeropuertosCercanosVuelta">
+			<locator-id value="buscarCercanosVuelta" />
+		</checkBox>
+
+		<textBox fieldId="fechaIda">
+			<locator-id value="Fin" />
+		</textBox>
+		
+		<textBox fieldId="fechaVuelta">
+			<locator-id value="Fout" />
+		</textBox>
+		
+		<select fieldId="clase">
+			<locator-id value="cabinType" />
+		</select>
+		
+		<select fieldId="adultos">
+			<locator-id value="adultos" />
+		</select>
+		
+		<checkBox fieldId="ninos">
+			<locator-id value="viajo-ninos" />
+		</checkBox>
+		
+
+	</fields>
+	
+	<results>
+		<result contentRegExp=".*">
+			<action-iterateHub>
+				<product>
+					<locator-xpath value="//child::div[@class='elemento-vuelo']//a[@class='reservarD']"/>
+				</product>
+				<nextPage>
+					<locator-xpath value="//a[contains(text(),'Siguiente')]"/>
+				</nextPage>
+			</action-iterateHub>
+		</result>
+	</results>	
+	
+</formModel>
+

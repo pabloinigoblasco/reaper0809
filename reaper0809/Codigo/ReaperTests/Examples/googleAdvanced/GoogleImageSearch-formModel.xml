@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>        
+<formModel identificationUrl="sevilleImages">  
+
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://images.google.es/advanced_image_search?hl=en"/>
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-name value="btnG"/>
+	</submitLocator>
+
+	<fields>
+		<textBox fieldId="wordAs">
+			<locator-name value="as_q"/>
+		</textBox>
+		
+		<textBox fieldId="wordExactlyEqualAs">
+			<locator-name value="as_epq"/>
+		</textBox>
+		
+		<textBox fieldId="wordSimilarAs">
+			<locator-name value="as_oq"/>
+		</textBox>
+		
+		<select fieldId="imageType">
+			<locator-name value="imgtype"/>
+		</select>
+	</fields>
+	<results>
+	
+	</results>
+</formModel>

@@ -1,0 +1,13 @@
+- comprobar las letras de los xml si merece la pena unificarlas
+- modelo de queries es extraño, ver si se puede aplicar modelo de consultas o query model en cada caso.
+- unificar formato de las tablas
+- revisar iterateHub
+- revisar xpath
+- revisar contentRegExp 
+- hablar de los form fillers
+- poner todas las imágenes con mismo formato
+- Framework de comparación
+	* Lenguaje Soportado estaría en alcance
+	* ¿Qué quiere decir que soporta AJAX? ¿Esperan un timeout? (Revisar los casos donde decimos que soportan AJAX)
+	* DENODO es parcialmente resilient (tratamiento de xpath)
+	

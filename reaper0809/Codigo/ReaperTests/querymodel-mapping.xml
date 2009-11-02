@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<mapping>
+	<description>Description of the mapping</description>
+	<class name="org.lsi.us.es.reaper.QueryLanguage.Query">
+		<map-to xml="query"/>
+		
+		<field name="javaScriptImports" type="org.lsi.us.es.reaper.QueryLanguage.JavaScript" collection="arraylist">
+			<bind-xml name="javascript" node="element" location="imports"/>
+		</field>
+		
+		<field name="formURL" type="string"  required="true" nillable="false">
+			<bind-xml name="formUrl" node="attribute"/>
+		</field>
+
+		<field name="assignments" type="org.lsi.us.es.reaper.QueryLanguage.Assignment" collection="arraylist" required="true" nillable="false">
+			<bind-xml auto-naming="deriveByClass" node="element"  location="assignments"/>
+		</field>
+		
+		<field name="events" type="org.lsi.us.es.reaper.QueryLanguage.Event" collection="arraylist">
+			<bind-xml name="event" node="element"  location="events"/>
+		</field>
+	</class>
+	
+	<class name="org.lsi.us.es.reaper.QueryLanguage.Event">
+		<map-to xml="event"/>
+		<field name="scriptExpression" type="string">
+			<bind-xml node="text"/>
+		</field>
+		<field name="name" type="org.lsi.us.es.reaper.QueryLanguage.EventEnumeration" required="true" nillable="false">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="org.lsi.us.es.reaper.QueryLanguage.JavaScript">
+		<map-to xml="javaScript"/>
+		<field name="url" type="string" required="true" nillable="false">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<class name="org.lsi.us.es.reaper.QueryLanguage.Dependant">
+		<field name="groups" type="org.lsi.us.es.reaper.QueryLanguage.Group" collection="arraylist" required="true" nillable="false">
+			<bind-xml node="element"/>
+		</field>
+	</class>
+
+	<class name="org.lsi.us.es.reaper.QueryLanguage.Simple">
+		<field name="fieldId" type="string"  required="true" nillable="false">
+			<bind-xml name="fieldId" node="attribute"/>
+		</field>
+
+		<field name="values" type="org.lsi.us.es.reaper.QueryLanguage.Value" collection="arraylist" required="true" nillable="false">
+			<bind-xml name="value" node="element"/>
+		</field>
+		
+		<field name="useValueAs" type="org.lsi.us.es.reaper.QueryLanguage.ValueEntryType">
+			<bind-xml name="useValueAs" node="attribute"/>
+		</field>
+	</class>
+
+	<class name="org.lsi.us.es.reaper.QueryLanguage.Group">
+		<field name="simpleAssigments" type="org.lsi.us.es.reaper.QueryLanguage.Simple" collection="arraylist" required="true" nillable="false">
+			<bind-xml node="element"/>
+		</field>
+	</class>
+	
+	<class name="org.lsi.us.es.reaper.QueryLanguage.Value">
+		<field name="val" type="string">
+			<bind-xml node="text"/>
+		</field>
+		
+		<field name="javascriptExpression" type="boolean">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+
+</mapping>

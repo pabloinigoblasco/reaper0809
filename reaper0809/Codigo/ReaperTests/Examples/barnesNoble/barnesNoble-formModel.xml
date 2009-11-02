@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>        
+<formModel identificationUrl="barnesNoble">  
+	<reachFormMethod>
+		<httpGetRequest requestUrl="http://www.barnesandnoble.com/search.asp"/>
+	</reachFormMethod>
+
+	<submitLocator>
+		<locator-xpath value="//input[@title='Search']"/>
+	</submitLocator>
+
+	<fields>
+	   
+		<checkBox fieldId="buscarUsadosDisponibles">
+			<locator-name value="BQ" />
+		</checkBox>
+		
+	    <textBox fieldId="titulo">
+			<locator-name value="TTL" />
+		</textBox>
+		
+		<textBox fieldId="autor">
+			<locator-name value="ATH" />
+		</textBox>
+		
+		<textBox fieldId="claves">
+			<locator-name value="WRD" />
+		</textBox>
+		
+		<textBox fieldId="claves">
+			<locator-name value="WRD" />
+		</textBox>
+		
+		<textBox fieldId="editorial">
+			<locator-name value="PBL" />
+		</textBox>
+		
+		<select fieldId="precio">
+			<locator-name value="PRC" />
+		</select>
+		
+		<select fieldId="formato">
+			<locator-name value="FMT" />
+		</select>
+		
+		<select fieldId="edad">
+			<locator-name value="AGE" />
+		</select>
+		
+		<select fieldId="tematica">
+			<locator-name value="CID" />
+		</select>
+
+	</fields>
+	
+	<results>
+		<result contentRegExp=".*">
+			<action-iterateHub>
+				<product>
+					<locator-xpath value="//child::div[contains(@class,'book-container')]//h2/a"/>
+				</product>
+				<nextPage>
+					<locator-xpath value="//a[@class='left-arrow' and text()='Next']"/>
+				</nextPage>
+			</action-iterateHub>
+			<action-store/>
+		</result>
+	</results>
+	
+	
+</formModel>
