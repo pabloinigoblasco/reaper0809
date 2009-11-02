@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<query formUrl="ulises">
+<query formUrl="http://es.ulises.com/">
 	<javaScript url="reaper-javascript.js" />	
 	<javaScript url="Examples/Ulises/ulises-javascript-utils.js"/>
 	<assignments>

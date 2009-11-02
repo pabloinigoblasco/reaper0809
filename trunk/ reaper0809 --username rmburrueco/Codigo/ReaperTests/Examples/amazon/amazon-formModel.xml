@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>        
-<formModel identificationUrl="amazon">  
+<formModel identificationUrl="http://www.amazon.com">  
 	<reachFormMethod>
 		<httpGetRequest requestUrl="http://www.amazon.com"/>
 	</reachFormMethod>
