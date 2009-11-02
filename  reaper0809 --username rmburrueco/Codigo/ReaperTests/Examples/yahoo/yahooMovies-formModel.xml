@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>        
-<formModel identificationUrl="yahooMovies">  
+<formModel identificationUrl="http://movies.yahoo.com">  
 	<reachFormMethod>
 		<httpGetRequest requestUrl="http://movies.yahoo.com"/>
 	</reachFormMethod>

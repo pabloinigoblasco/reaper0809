@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>        
-<formModel identificationUrl="ulises">  
+<formModel identificationUrl="http://es.ulises.com/">  
 	<reachFormMethod>
 		<httpGetRequest requestUrl="http://es.ulises.com/"/>
 	</reachFormMethod>
@@ -66,9 +66,8 @@
 					<locator-xpath value="//a[contains(text(),'Siguiente')]"/>
 				</nextPage>
 			</action-iterateHub>
-			<action-store/>
 		</result>
-	</results>
-	
+	</results>	
 	
 </formModel>
+
