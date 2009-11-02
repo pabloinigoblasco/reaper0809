@@ -90,8 +90,8 @@ public class Query {
 					.importScripts(getJavaScriptImports());
 		} catch (LoadingModelException ex) {
 			error = true;
-			errors.add("Error cargando javaScripts especificados:\n"
-					+ ex.toString());
+			errors.add("Error loading Java Script files:\nThe resource file must be an URL ('http://mydomain.com/myfile.js' or 'file://c|/myproject/myfile.js') or a relative file path: 'Examples/myfile.js' or a embedded resource path (same way than relative file): 'reaper-javascript.js'\n"
+					+ ex.getMessage());
 		}
 
 		return error;

@@ -206,9 +206,15 @@ public class SeleniumFillerApplication implements IFormFiller {
 							reader = new BufferedReader(new FileReader(j
 									.toUrl().getPath()));
 						} catch (Exception exb) {
+							try
+							{
 							reader = new BufferedReader(new InputStreamReader(
 									getClass().getClassLoader().getResource(
 											j.getUrl()).openStream()));
+							}catch(Exception exc)
+							{
+								throw new LoadingModelException(j.getUrl());
+							}
 						}
 
 					}
