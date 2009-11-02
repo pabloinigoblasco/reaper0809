@@ -15,6 +15,10 @@
 	</fields>
 	
 	<results>
+		<result urlRegExp="Java">
+			<action-classify tag="interestingJavaRelatedHubs" />
+		</result>
+		
 		<result contentRegExp=".*">
 			<action-iterateHub>
 				<product>

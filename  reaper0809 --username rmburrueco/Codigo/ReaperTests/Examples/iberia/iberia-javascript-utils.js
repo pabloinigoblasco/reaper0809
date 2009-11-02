@@ -50,12 +50,5 @@ function avoidSpanishLanguage()
 	}
 
 	//ejemplo de eventos como punto de sincronización por condición
-	return !selenium.isElementPresent("link=Fligths");
-
-	//ejemplo con otro lenguaje
-	//	if(selenium.isElementPresent("link=Español"))
-	//	{
-	//		selenium.doClick("link=Español");
-	//	}
-	//	return !selenium.isElementPresent("link=Vuelos");
+	return !selenium.isElementPresent("link=Flights");
 }

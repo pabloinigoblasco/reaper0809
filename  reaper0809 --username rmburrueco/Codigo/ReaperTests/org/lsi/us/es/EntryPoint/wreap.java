@@ -14,6 +14,17 @@ public class wreap {
 			Configurations.SeleniumNavigator = option;
 			LogSystem.logConsole("browser: " + option);
 		}
+		if (findOption("--port", args)) {
+			try
+			{
+				Configurations.SeleniumPort = Integer.valueOf(option);
+				LogSystem.logConsole("browser: " + option);
+			}
+			catch(Exception ex)
+			{
+				LogSystem.logConsole("Incorrect selenium port");
+			}
+		}
 		if (findOption("--out", args)) {
 			Configurations.OutputDirectory = option;
 			LogSystem.logConsole("out: " + option);
@@ -52,7 +63,7 @@ public class wreap {
 			System.out.println("wreap v0.9.10. University of Seville. 2009.");
 			System.out.println("Authors:");
 			System.out.println("\tPablo Iñigo Blasco");
-			System.out.println("\tRosa María Burrueco");
+			System.out.println("\tRosa María Burrueco Jiménez");
 			System.out.println("Advisors:");
 			System.out.println("\tRafael Corchuelo Gil");
 			System.out.println("\tInmaculada Hernandez Salmerón");
@@ -94,7 +105,7 @@ public class wreap {
 		System.out.println("OPTIONAL PARAMETERS:");
 		System.out.println();
 		System.out
-				.println("--browser\tSeleniumNavigator, selenium browser type, default value='*firefox'");
+				.println("--browser\tSeleniumNavigator, selenium browser type, [default value]='*firefox'");
 		System.out
 				.println("\t\texample: wreap --browser *opera [more parameters]");
 		System.out.println();
@@ -104,11 +115,16 @@ public class wreap {
 				.println("\t\texample wreap --out' ./resultOutput [more parameters]");
 		System.out.println();
 		System.out
-				.println("--speed\t\tbrowser speed between actions in milliseconds, default value='10'");
+		.println("--port\t\tselenium server socket port, [default value]=4444");
+		System.out.println("\t\texample wreap --speed 20");
+		System.out.println();
+
+		System.out
+				.println("--speed\t\tbrowser speed between actions in milliseconds, [default value]='10'");
 		System.out.println("\t\texample wreap --speed 20");
 		System.out.println();
 		System.out
-				.println("--submitMaxWait\tmaximum waiting time in millisecs after the main submit or prodict detail navigation in IterateHub actions");
+				.println("--submitMaxWait\tmaximum waiting time in millisecs after the main submit or product detail navigation in IterateHub actions");
 		System.out
 				.println("\t\texample: wreap --submitMaxWait 20000 [more parameters]");
 		System.out.println();

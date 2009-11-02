@@ -6,6 +6,6 @@ function removeTargetBlankOfProductAnchor()
 	if(anchor.href.toString().match(".pdf"))
 	{
 		lastHref=anchor.href;
-		anchor.href="java script:void(0);"
+		anchor.href="java script:";
 	}
 }
