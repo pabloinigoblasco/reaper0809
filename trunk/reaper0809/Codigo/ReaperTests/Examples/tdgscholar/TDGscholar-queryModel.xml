@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<query formUrl="http://scholar.tdg-seville.info">
+	<javaScript url="reaper-javascript.js" />
+	<javaScript url="Examples/tdgscholar/tdg-javascript-utils.js" />
+	<assignments>
+		<simple fieldId="query">
+			<value>Sql</value>
+			<value>Java EE</value>
+			<value>Java JME</value>
+			<value>Data Mining</value>
+			<value>SOA</value>
+		</simple>
+	</assignments>
+	
+	<events>
+		<!-- <event name="scriptException">showScriptExceptionMessage()</event> -->
+		
+		<event name="iterateHubProductDetailBegin">removeTargetBlankOfProductAnchor()</event>
+	</events>
+</query>

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<query formUrl="http://www.amazon.com">
+	<javaScript
+		url="reaper-javascript.js" />
+	
+	<assignments>
+		<simple fieldId="search">
+			<value>Java</value>
+			<value>Love</value>
+			<value>Selenium</value>
+		</simple>
+	</assignments>
+
+</query>

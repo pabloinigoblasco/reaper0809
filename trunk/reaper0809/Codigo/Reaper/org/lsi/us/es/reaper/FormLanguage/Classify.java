@@ -1,0 +1,64 @@
+/* 
+ * Authors:  
+ * 	Pablo Iñigo Blasco
+ * 	Rosa María Burrueco Jiménez
+ *  
+ * Advisors:
+ *  	Rafael Corchuelo Gil
+ *  	Inmaculada Hernández Salmerón
+ *  
+ * Universidad de Sevilla 2009
+ *  
+ * */
+
+
+package org.lsi.us.es.reaper.FormLanguage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.List;
+import org.lsi.us.es.reaper.Core.IFormFiller;
+import org.lsi.us.es.reaper.Core.ReapingProcess;
+import org.lsi.us.es.reaper.Core.Exceptions.ReapingProccessException;
+import org.lsi.us.es.reaper.QueryLanguage.EventEnumeration;
+import org.lsi.us.es.reaper.QueryLanguage.Query;
+
+
+public class Classify implements Action{
+
+	String tag;
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	
+	public boolean apply(IFormFiller formFiller,Query q) throws ReapingProccessException {
+	    try 
+	    {
+			q.launchEvent(EventEnumeration.actionBegin);
+			
+	    	File directory=new File(ReapingProcess.getCurrentDirectoryName()+"/"+tag+"/");
+	    	if(!directory.exists())
+	    		directory.mkdir();
+	    	
+	        PrintWriter fw = new PrintWriter(new FileOutputStream(ReapingProcess.getCurrentDirectoryName()+"/"+tag+"/" + ReapingProcess.getAttemptId() +".html"));
+	        fw.write(formFiller.getCurrentHtmlContent());
+	        fw.close();
+	        
+	        q.launchEvent(EventEnumeration.actionFinished);
+	    } 
+	    catch (FileNotFoundException ex) {
+	    	throw new ReapingProccessException(ex);
+        }
+	    return true;
+	}
+	public boolean validate(List<String> errorDescriptions) 
+	{
+		return false;
+	}
+
+}

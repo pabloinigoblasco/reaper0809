@@ -1,0 +1,81 @@
+Propuestas:
+a- Eliminar el soporte de hiddenField no tiene sentido si trabajamos con la interfaz de usuario
+- Base de datos
+- pasar el ValueEntryType al field del modelo de formularios
+- Que el iterateHubAction pueda contener results para clasificar...
+- Localizador de links, muy util para el submit del form, el product del IterateHub o el NextPage del iterateHub
+
+------------------------------------------------------------------------
+Cosas a comentar y cambios en el modelo:
+- eventos
+- selenium soporta javascript por lo que los eventos pueden ser en javascript
+- Un formulario puede tener múltiples definiciones de resultados (si no, la clasificación por ejemplo queda pobre)
+
+-------------------------------------------------------------------------
+Cosas ha hacer
+- Que los campos requiredd del modelo de formulario estén existentes en el modelo de queries
+- planificador
+- hacer por javascript el ejemplo de valores-colección con todas las letras del
+abecedario
+- por javascript obtener el localizador a partir de un nombre, o acceder al botón next??
+- Considerar las excepciones por timeout que no corten el proceso
+- Un poquito mas de documentación, especialmente en la clase Query
+- base de datos
+- Control de excepciones con los eventos (excepciones recursivas XD)
+- Idioma
+- La � (Espa�a y la Coru�a no rulan)
+
+-------------------------------------------------------------------------
+Cosas de documentación:
+- Hacer la parte de la documentación
+- Hacer la planificación
+- Refinar la descripción del modelo de Form(por si puedo aportar algo por la implementación)
+- Explicar los diagramas de actividades
+- Hablar de eventos y ponerlos en el modelo
+- Hablar de las dependencias
+- Refinar la descripción del modelo de Query(por si puedo aportar algo por la implementación)
+- Resultados
+	- Problemas de que los servidores te echen
+	- Resultados : Modelizados simples, Modelizados con eventos, no modelizados
+		(coches, libros)
+		
+
+
+------------------------------------------------------------------------
+Requisitos de información de la base de datos
+
+Log de errores
+- intento asociado
+- mensaje
+- Excepción texto
+- tipo:
+	- warning inicial
+	- error durante el rellenado
+	- error durante el submit
+	- error durante la iteración en la acción iteratehub
+	- otro tipo de error
+	- Excepción crítica que corta el proceso (típicamente los timeouts)
+
+
+Reaping process
+- identificador de reaping proccess
+- hora de comienzo
+- hora de finalización
+
+
+Resultados
+- identificador de intento (long)
+- identificador de reaping proccess
+- hora
+- combinación de query
+- success
+- htmlResultante
+
+Asignacion
+- identificador de intento
+- campo
+- valor
+		
+Acciones aplicadas
+- identificador de intento
+- acción

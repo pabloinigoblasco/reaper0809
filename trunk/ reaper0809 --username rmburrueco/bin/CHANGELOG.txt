@@ -1,8 +1,0 @@
-
-====================================
-Noviembre 2009
-====================================
-
-wreap Versión 0.9.11
-versión final del trabajo.
-Herramienta estable.
