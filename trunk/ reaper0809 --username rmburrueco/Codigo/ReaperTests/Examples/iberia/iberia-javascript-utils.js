@@ -32,17 +32,13 @@ function getMonthLabel(val)
 	return text;
 }
 
+
 function waitOnCountryChanged(field,val)
 {
 	if(field=="departureCountry")
 	{
-		if(val!=lastCountry)
-		{
-			selenium.doWaitForPageToLoad("30000");
-			waitMillisecs(3000);
-		}
-	
-		lastCountry=val;
+		var wait = selenium.isElementPresent("TB_overlay");
+		return wait;
 	}
 }
 

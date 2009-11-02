@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <query formUrl="http://scholar.tdg-seville.info">
 	<javaScript url="reaper-javascript.js" />
-	<javaScript url="Examples/tdgscholar/tdg-javascript-utils.js" />
+	<javaScript url="/Datos/tdg-javascript-utils.js" />
 	<assignments>
 		<simple fieldId="query">
 			<value>Sql</value>
