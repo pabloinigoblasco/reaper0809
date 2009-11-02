@@ -4,7 +4,6 @@
 	<javaScript url="Examples/iberia/iberia-javascript-utils.js" />
 	
 	<assignments>
-	
 		<dependant>
 			<group>
 				<simple fieldId="departureCountry">

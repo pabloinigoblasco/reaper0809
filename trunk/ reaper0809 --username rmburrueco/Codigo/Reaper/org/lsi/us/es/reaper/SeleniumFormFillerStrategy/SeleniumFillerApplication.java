@@ -1,7 +1,7 @@
 /* 
  * Authors:  
  * 	Pablo Iñigo Blasco
- * 	Rosa María Burrueco
+ * 	Rosa María Burrueco Jiménez
  *  
  * Advisors:
  *  	Rafael Corchuelo Gil
@@ -67,7 +67,7 @@ public class SeleniumFillerApplication implements IFormFiller {
 	public void navigate(String url) {
 
 		if (browser == null) {
-			browser = new DefaultSelenium("localhost", 4444,
+			browser = new DefaultSelenium("localhost", Configurations.SeleniumPort,
 					Configurations.SeleniumNavigator, url);
 
 			browser.start();

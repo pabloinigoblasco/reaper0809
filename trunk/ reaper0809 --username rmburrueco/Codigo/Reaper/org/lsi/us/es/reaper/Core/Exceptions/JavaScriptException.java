@@ -1,7 +1,7 @@
 /* 
  * Authors:  
  * 	Pablo Iñigo Blasco
- * 	Rosa María Burrueco
+ * 	Rosa María Burrueco Jiménez
  *  
  * Advisors:
  *  	Rafael Corchuelo Gil

@@ -1,7 +1,7 @@
 /* 
  * Authors:  
  * 	Pablo Iñigo Blasco
- * 	Rosa María Burrueco
+ * 	Rosa María Burrueco Jiménez
  *  
  * Advisors:
  *  	Rafael Corchuelo Gil
@@ -23,5 +23,6 @@ public class Configurations {
 	public static String afterEventsCodeWaitMilliseconds="500";
 	public static String OutputDirectory="./Results/";
 	public static String BrowserSpeed = "10";
+	public static int SeleniumPort=4444;
 	
 }
