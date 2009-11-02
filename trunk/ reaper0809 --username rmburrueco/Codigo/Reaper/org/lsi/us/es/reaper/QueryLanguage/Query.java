@@ -3,7 +3,7 @@
  * 	Pablo Iñigo Blasco
  * 	Rosa María Burrueco
  *  
- * Directed by:
+ * Advisors:
  *  	Rafael Corchuelo Gil
  *  	Inmaculada Hernández Salmerón
  *  
@@ -32,8 +32,6 @@ import org.lsi.us.es.reaper.FormLanguage.Field;
 import org.lsi.us.es.reaper.FormLanguage.Form;
 import org.lsi.us.es.reaper.FormLanguage.Action;
 import org.lsi.us.es.reaper.FormLanguage.Result;
-
-import sun.util.logging.resources.logging;
 
 public class Query {
 	String formURL;
@@ -104,7 +102,6 @@ public class Query {
 			throws JavaScriptException {
 		int[] currentValue = new int[simpleAssignments.size()];
 		boolean end = false;
-		boolean lastTime=false;
 
 		int simpleAssignmentIndex = 0;
 		SortedMap<Simple, Value> assignmentsMap = new TreeMap<Simple, Value>(
@@ -112,30 +109,33 @@ public class Query {
 
 		while (!end) {
 
-			//se escoje un campo
-			Simple currentSimpleAssignment = simpleAssignments.get(simpleAssignmentIndex);
-			
-			//se escoje el valor a asignar
+			// se escoje un campo
+			Simple currentSimpleAssignment = simpleAssignments
+					.get(simpleAssignmentIndex);
+
+			// se escoje el valor a asignar
 			int valueIndex = currentValue[simpleAssignmentIndex];
 
-			//se anota el par campo, valor
+			// se anota el par campo, valor
 			assignmentsMap.put(currentSimpleAssignment, currentSimpleAssignment
 					.getValues().get(valueIndex));
 
-			//en el caso de haber completado el mapa de asignaciones
-			if (simpleAssignmentIndex == simpleAssignments.size() - 1) 
-			{
+			// en el caso de haber completado el mapa de asignaciones
+			if (simpleAssignmentIndex == simpleAssignments.size() - 1) {
 				ProcessQueryActivity(assignmentsMap, form, formFiller);
 
 				countRequests++;
 				end = true;
-				//en el caso que todos los campos tengan asignado su último valor, se ha tratado de la ultima vez
+				// en el caso que todos los campos tengan asignado su último
+				// valor, se ha tratado de la ultima vez
 				for (int j = 0; j < currentValue.length && end; j++)
-					if (currentValue[j] != simpleAssignments.get(j).getValues().size()-1)
+					if (currentValue[j] != simpleAssignments.get(j).getValues()
+							.size() - 1)
 						end = false;
-				
-				for(int j=0;j<currentValue.length;j++)
-					currentValue[j] = (currentValue[j]+1) % simpleAssignments.get(j).getValues().size();
+
+				for (int j = 0; j < currentValue.length; j++)
+					currentValue[j] = (currentValue[j] + 1)
+							% simpleAssignments.get(j).getValues().size();
 			}
 
 			simpleAssignmentIndex = (simpleAssignmentIndex + 1)
@@ -150,6 +150,7 @@ public class Query {
 		form.getReachFormMethod().navigateToForm();
 
 		LogSystem.NotifyStartingSubmitActivity(assignmentsMap);
+		LogSystem.logConsole("Proccessing Query "+ReapingProcess.getAttemptId()+".");
 
 		// variables para ser utilizadas en caso de excepción
 		Field f = null;
@@ -161,7 +162,6 @@ public class Query {
 			try {
 				f = e.getKey().getField();
 
-			
 				ReapingProcess.getFormFiller().setVariableValue(
 						ScriptVariable.currentFieldLocator,
 						f.getLocator().getExpression());
@@ -183,18 +183,15 @@ public class Query {
 						calculatedValue);
 				this.launchEvent(EventEnumeration.fieldAssignmentFinished);
 
-			} catch (JavaScriptException ex) {
-				LogSystem.settingValueFail(ex, f, calculatedValue);
-				LogSystem.scriptEventFailed(ex, this);
-				return;
 			} catch (ReapingProccessException ex) {
-				LogSystem.settingValueFail(ex, f, calculatedValue);
+				LogSystem.settingDynamicFieldValueException(ex, f,
+						calculatedValue, formFiller, this);
 				return;
-
 			} catch (Exception ex) // tipicamente una timeoutException
 			{
-				LogSystem.settingValueFail(new ReapingProccessException(ex), f,
-						calculatedValue);
+				LogSystem.settingDynamicFieldValueException(
+						new ReapingProccessException(ex), f, calculatedValue,
+						formFiller, this);
 				return;
 
 			} finally {
@@ -223,11 +220,10 @@ public class Query {
 			if (r.applicable(formFiller.getCurrentHtmlContent(), formFiller
 					.getCurrentUrl())) {
 				try {
-					for (Action a : r.getActions()) {
-
-						formFiller.setVariableValue(
-								ScriptVariable.currentAction, a.getClass()
-										.getSimpleName());
+					for (Action a : r.getActions()) 
+					{
+						formFiller.setVariableValue(ScriptVariable.currentAction, a.getClass().getSimpleName());
+						LogSystem.LogInResults("Applying action:"+ a.getClass().getName());
 						nextActionOrResult = a.apply(formFiller, this);
 						if (!nextActionOrResult)
 							break;
@@ -283,39 +279,43 @@ public class Query {
 
 		if (events != null) {
 			for (Event e : events) {
-				if (e.getName().equals(eventName)) 
-				{
+				if (e.getName().equals(eventName)) {
 					IFormFiller filler = ReapingProcess.getFormFiller();
 					try {
-						if(e.getScriptExpression()!=null)
-						{
-							
+						if (e.getScriptExpression() != null) {
+
 							String res;
-							do{
-								filler.setVariableValue(ScriptVariable.currentEvent,
-										eventName.toString());
-								 res= filler.evalScript(e.getScriptExpression());
-								 
-								 if(!res.equals("null") && !res.equals("false"))
-								 	Thread.sleep(1000);
-								 else
-									 break;
-								 
-							}while(true);
-							
+							do {
+								filler.setVariableValue(
+										ScriptVariable.currentEvent, eventName
+												.toString());
+								res = filler
+										.evalScript(e.getScriptExpression());
+
+								if (!res.equals("null") && !res.equals("false"))
+									Thread.sleep(1000);
+								else
+									break;
+
+							} while (true);
+
 							try {
-								filler.waitForPageToLoad(Configurations.afterEventsCodeWaitMilliseconds);
+								filler
+										.waitForPageToLoad(Configurations.afterEventsCodeWaitMilliseconds);
 							} catch (Exception ex) {
 							}
 						}
 					} catch (Exception ex) {
-						if (!eventName.equals(EventEnumeration.scriptException
-								.name()))
-							LogSystem.scriptEventFailed(ex, this);
-					}
-					finally
-					{
-						filler.setVariableValue(ScriptVariable.currentEvent,null);
+						if (eventName!=EventEnumeration.scriptException)
+							LogSystem.scriptEventFailed(ex, this, eventName);
+						else
+							LogSystem.notifyError("Reaper event '"
+									+ EventEnumeration.scriptException
+									+ "' was incorrectly handled");
+
+					} finally {
+						filler.setVariableValue(ScriptVariable.currentEvent,
+								null);
 					}
 
 				}

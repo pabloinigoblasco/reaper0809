@@ -19,6 +19,6 @@
 		<event name="iterateHubProductDetailFinished">waitLoadingUlisesResults()</event>
 		
 		<event name="iterateHubProductDetailBegin">removeTargetBlank()</event>
-		<event name="scriptException">showScriptExceptionMessage()</event>
+		<!--<event name="scriptException">showScriptExceptionMessage()</event>-->
 	</events>
 </query>

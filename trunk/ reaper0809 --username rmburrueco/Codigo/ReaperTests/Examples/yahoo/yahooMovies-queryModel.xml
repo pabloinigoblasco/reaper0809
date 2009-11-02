@@ -15,6 +15,6 @@
 
 	<events>
 		<event name="actionBegin">checkBlockingLinkNavigator()</event>
-		<event name="scriptException">showScriptExceptionMessage()</event>
+		<!--<event name="scriptException">showScriptExceptionMessage()</event>-->
 	</events>
 </query>
