@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Rosa (Estudiante) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="formModel">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="reachFormMethod">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="httpGetRequest">
+								<xs:complexType>
+									<xs:attribute name="requestUrl" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="submitLocator">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="locator-id">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="locator-name">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="locator-xpath">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="fields">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="select" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="locator-id">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-name">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-xpath">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="fieldId" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="textBox" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="locator-id">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-name">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-xpath">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="fieldId" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="radioGroup" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="locator-id">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-name">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-xpath">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="fieldId" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="checkBox" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="locator-id">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-name">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-xpath">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="fieldId" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="list" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="locator-id">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-name">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="locator-xpath">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="fieldId" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="results">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="result" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="action-classify">
+											<xs:complexType>
+												<xs:attribute name="tag" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="action-store"/>
+										<xs:element name="action-discard"/>
+										<xs:element name="action-iterateHub">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="product">
+														<xs:complexType>
+															<xs:choice>
+																<xs:element name="locator-id">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="locator-name">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="locator-xpath">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:choice>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="nextPage">
+														<xs:complexType>
+															<xs:choice>
+																<xs:element name="locator-id">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="locator-name">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="locator-xpath">
+																	<xs:complexType>
+																		<xs:attribute name="value" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:choice>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="contentRegExp" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="identificationUrl" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
