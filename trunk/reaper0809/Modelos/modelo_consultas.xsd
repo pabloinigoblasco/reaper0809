@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="query">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="javaScript" maxOccurs="unbounded"/>
+				<xs:element ref="assigments"/>
+			</xs:sequence>
+			<xs:attribute name="formUrl" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="javaScript">
+		<xs:complexType>
+			<xs:attribute name="url" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assigments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="simple" maxOccurs="unbounded"/>
+				<xs:element ref="dependant" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="simple" type="simpleType"/>
+	<xs:element name="dependant">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="group" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="simple" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="simpleType">
+		<xs:sequence>
+			<xs:element name="value" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="val"/>
+							<xs:attribute name="javascriptExpression" type="xs:boolean"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="fieldId"/>
+	</xs:complexType>
+</xs:schema>
