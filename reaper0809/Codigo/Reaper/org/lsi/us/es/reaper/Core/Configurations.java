@@ -21,7 +21,7 @@ public class Configurations {
 	public static String FormFillerStrategy="org.lsi.us.es.reaper.SeleniumFormFillerStrategy.SeleniumFillerApplication";
 	public static String submitWaitMilliseconds="20000";
 	public static String afterEventsCodeWaitMilliseconds="500";
-	public static String OutputDirectory="./Results/";
+	public static String OutputDirectory="Results";
 	public static String BrowserSpeed = "10";
 	public static int SeleniumPort=4444;
 	
