@@ -46,13 +46,17 @@ public class SeleniumFillerApplication implements IFormFiller {
 
 	public SeleniumFillerApplication() throws ReapingProccessException {
 		try {
-			server = new SeleniumServer();
+			RemoteControlConfiguration conf=new RemoteControlConfiguration();
+			conf.setPort(Configurations.SeleniumPort);
+			
+			server = new SeleniumServer(conf);
 		} catch (Exception ex) {
 			throw new ReapingProccessException(ex);
 		}
 
 		try {
 			server.start();
+			
 		} catch (Exception ex) {
 			throw new ReapingProccessException(ex);
 		}
