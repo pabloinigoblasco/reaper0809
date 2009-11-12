@@ -135,7 +135,7 @@ public class ReapingProcess {
 	static String currentDirectoryName;
 	private static void generateCurrentDirectoryName(Form f) throws ReapingProccessException {
 
-		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy_HHmm");
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmm");
 		Date date = new Date();
 		String d = dateFormat.format(date);
 
