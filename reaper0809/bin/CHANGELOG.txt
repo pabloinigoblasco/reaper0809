@@ -3,6 +3,20 @@
 Noviembre 2009
 ====================================
 
+wreap Versión 0.9.11.12
+
+* Corrección en el formato en que las carpetas
+de resultados en YYYYMMDD_HHmm
+
+* Añadido archivo .bat para facilitar la ejecución desde windows
+
+* Bug selección de puerto distinto al 4444 corregido.
+
+
+====================================
+Noviembre 2009
+====================================
+
 wreap Versión 0.9.11
 versión final del trabajo.
 Herramienta estable.
