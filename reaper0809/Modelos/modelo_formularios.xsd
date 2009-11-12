@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<xs:schema 
-xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"
->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Rosa (Estudiante) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="formModel">
 		<xs:complexType>
 			<xs:sequence>
@@ -25,13 +23,7 @@ xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attri
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="submitLocator">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="locator" type="locatorType"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="submitLocator" type="locatorType"/>
 	<xs:element name="fields">
 		<xs:complexType>
 			<xs:sequence>
@@ -52,50 +44,56 @@ xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attri
 	</xs:element>
 	<xs:element name="select">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="locator" type="locatorType"/>
-			</xs:sequence>
-			<xs:attribute name="fieldId" type="xs:string"/>
+			<xs:complexContent>
+				<xs:extension base="locatorType">
+					<xs:attribute name="fieldId" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="textBox">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="locator" type="locatorType"/>
-			</xs:sequence>
-			<xs:attribute name="fieldId" type="xs:string"/>
+			<xs:complexContent>
+				<xs:extension base="locatorType">
+					<xs:attribute name="fieldId" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="radioGroup">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="locator" type="locatorType"/>
-			</xs:sequence>
-			<xs:attribute name="fieldId" type="xs:string"/>
+			<xs:complexContent>
+				<xs:extension base="locatorType">
+					<xs:attribute name="fieldId" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="checkBox">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="locator" type="locatorType"/>
-			</xs:sequence>
-			<xs:attribute name="fieldId" type="xs:string"/>
+			<xs:complexContent>
+				<xs:extension base="locatorType">
+					<xs:attribute name="fieldId" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="list">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="locator" type="locatorType"/>
-			</xs:sequence>
-			<xs:attribute name="fieldId" type="xs:string"/>
+			<xs:complexContent>
+				<xs:extension base="locatorType">
+					<xs:attribute name="fieldId" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="result">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="action" type="actionType"/>
-			</xs:sequence>
-			<xs:attribute name="contentRegExp" type="xs:string"/>
+			<xs:complexContent>
+				<xs:extension base="actionType">
+					<xs:attribute name="contentRegExp" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="locatorType">

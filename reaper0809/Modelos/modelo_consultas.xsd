@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Rosa (Estudiante) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="query">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="javaScript" maxOccurs="unbounded"/>
-				<xs:element ref="assigments"/>
+				<xs:element ref="assignments"/>
+				<xs:element ref="events" minOccurs="0"/>
 			</xs:sequence>
 			<xs:attribute name="formUrl" type="xs:string"/>
 		</xs:complexType>
@@ -15,11 +16,11 @@
 			<xs:attribute name="url" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="assigments">
+	<xs:element name="assignments">
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="dependant" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="simple" maxOccurs="unbounded"/>
-				<xs:element ref="dependant" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -43,7 +44,6 @@
 				<xs:complexType>
 					<xs:simpleContent>
 						<xs:extension base="xs:string">
-							<xs:attribute name="val"/>
 							<xs:attribute name="javascriptExpression" type="xs:boolean"/>
 						</xs:extension>
 					</xs:simpleContent>
@@ -52,4 +52,19 @@
 		</xs:sequence>
 		<xs:attribute name="fieldId"/>
 	</xs:complexType>
+	<xs:element name="events">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="event" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="name" type="xs:string"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
